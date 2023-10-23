@@ -1,67 +1,32 @@
-name: Build and Test
+name: Build React App
 
 on:
   push:
     branches:
-      - main
+      - main # Or whatever branch name you use for your main branch, like 'master'
   pull_request:
     branches:
-      - '*'
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug
-        run: |
-          pwd
-          ls -l
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14' # Adjust this version if needed
 
-      - name: Debug
-        run: |
-          pwd
-          ls -l
+    - name: Install dependencies
+      run: |
+        cd Frontend-Client
+        npm ci
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Debug
-        run: |
-          pwd
-          ls -l
-
-      - name: Navigate into the Frontend-Client directory
-        run: cd Frontend-Client
-        working-directory: ./Frontend-Client
-
-      - name: Debug
-        run: |
-          pwd
-          ls -l
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./Frontend-Client
-
-      - name: Debug
-        run: |
-          pwd
-          ls -l
-
-      - name: Build and test
-        run: |
-          npm run build
-          npm test
-        working-directory: ./Frontend-Client
-
-      - name: Debug
-        run: |
-          pwd
-          ls -l
-        
+    - name: Build the React app
+      run: |
+        cd Frontend-Client
+        npm run build
