@@ -13,23 +13,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug
+        run: |
+          pwd
+          ls -l
+
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Debug
+        run: |
+          pwd
+          ls -l
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14
 
+      - name: Debug
+        run: |
+          pwd
+          ls -l
+
       - name: Navigate into the Frontend-Client directory
         run: cd Frontend-Client
+        working-directory: ./Frontend-Client
+
+      - name: Debug
+        run: |
+          pwd
+          ls -l
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./Frontend-Client
+
+      - name: Debug
+        run: |
+          pwd
+          ls -l
 
       - name: Build and test
         run: |
-          cd ..  # Move back to the main directory
-          cd Frontend-Client  # Re-enter the Frontend-Client directory
           npm run build
           npm test
+        working-directory: ./Frontend-Client
+
+      - name: Debug
+        run: |
+          pwd
+          ls -l
+        
