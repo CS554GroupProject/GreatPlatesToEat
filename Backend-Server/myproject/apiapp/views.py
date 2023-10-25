@@ -1,7 +1,7 @@
 from rest_framework import generics
 from .models import Item, User, UserRequest
 from .serializers import ItemSerializer
-from .third_party_interfaces import get_completion
+from .third_party_interfaces import ChatInteractions
 
 class ItemListCreate(generics.ListCreateAPIView):
     queryset = Item.objects.all()
@@ -9,10 +9,12 @@ class ItemListCreate(generics.ListCreateAPIView):
 
 class GetResponse:
     """class to get responses"""
+    
     def recipe_suggestion(self, prompt:str):
         """This function takes in a prompt and returns a response"""
+        user_request = ChatInteractions()
         response = None
-        response = get_completion(prompt)
+        response = user_request.get_completion(prompt)
         return response
     
 class Home:
