@@ -23,10 +23,3 @@ class DataMapperFromChatGPT:
             return False
         
         return True
-
-    def get_message_from_response(self, response) -> str:
-        correct_structure_for_response = DataMapperFromChatGPT.is_correct_response_structure(self=DataMapperFromChatGPT, response=response)
-
-        if correct_structure_for_response is False:
-            return ""
-        return response['choices'][0]['message']['content']

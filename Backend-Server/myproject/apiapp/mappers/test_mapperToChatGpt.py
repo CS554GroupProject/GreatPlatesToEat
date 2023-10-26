@@ -1,4 +1,4 @@
-from mapperToChatGPT import DataMapperToChatGPT
+from .mapperToChatGPT import DataMapperToChatGPT
 
 def test_rephrase_request():
     message_array = [{

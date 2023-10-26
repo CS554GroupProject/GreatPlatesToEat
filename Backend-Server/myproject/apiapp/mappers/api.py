@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify
-from mapperToChatGPT import DataMapperToChatGPT
-from mapperFromChatGPT import DataMapperFromChatGPT
-from utilities import is_proper_key, get_response, is_data_string_empty;
+from .mapperToChatGPT import DataMapperToChatGPT
+from .mapperFromChatGPT import DataMapperFromChatGPT
+from .utilities import is_proper_key, is_data_string_empty
 
 app = Flask(__name__)
 
-@app.route("/post", methods=["POST"])
+@app.route("/postToChatGpt", methods=["POST"])
 def query_data():
     data = request.get_json()
 
@@ -19,15 +19,12 @@ def query_data():
 
     user_text = data[key]
 
-    mapped_data = DataMapperToChatGPT.rephrase_request(self=DataMapperToChatGPT, user_text=user_text)
-    response = get_response(mapped_data=mapped_data)
+    response = DataMapperToChatGPT.send_message_to_gpt(DataMapperFromChatGPT, request=user_text)
 
-    mapped_response_data = DataMapperFromChatGPT.get_message_from_response(self=DataMapperFromChatGPT, response=response)
-
-    if is_data_string_empty(mapped_response_data):
+    if is_data_string_empty(response):
         return jsonify("No response or invalid data", 503)
 
-    return jsonify(mapped_response_data), 200
+    return jsonify(response), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

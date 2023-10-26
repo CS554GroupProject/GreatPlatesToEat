@@ -1,4 +1,4 @@
-from mapperFromChatGPT import DataMapperFromChatGPT
+from .mapperFromChatGPT import DataMapperFromChatGPT
 
 def test_is_correct_response_structure_true():
     data = {"choices": [{"message": {"content": "Hello World"}}]}
@@ -55,19 +55,3 @@ def test_is_correct_response_structure_content_not_string():
     result = DataMapperFromChatGPT.is_correct_response_structure(self=DataMapperFromChatGPT, response=data)
 
     assert result is False
-
-def test_get_message_from_response_none():
-    response_from_chat_gpt = ""
-
-    message_expected = ""
-    result = DataMapperFromChatGPT.get_message_from_response(self=DataMapperFromChatGPT, response=response_from_chat_gpt)
-
-    assert result == message_expected
-
-def test_get_message_from_response_valid():
-    response_from_chat_gpt = {"choices": [{"message": {"content": "Hello World"}}]}
-
-    message_expected = "Hello World"
-    result = DataMapperFromChatGPT.get_message_from_response(self=DataMapperFromChatGPT, response=response_from_chat_gpt)
-
-    assert result == message_expected

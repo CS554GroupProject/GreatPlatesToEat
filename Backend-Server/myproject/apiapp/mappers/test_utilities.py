@@ -1,4 +1,4 @@
-from utilities import is_proper_key, is_data_string_empty, get_response
+from .utilities import is_proper_key, is_data_string_empty
 
 def test_is_proper_key_valid():
     valid_key = "Query"
@@ -27,5 +27,3 @@ def test_is_data_string_nonempty():
         is_data_string_empty(data=data_string)
         is False
     )
-
-# get_response will get tested when actually getting data
