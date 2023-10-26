@@ -1,10 +1,7 @@
 from flask import Flask, request, jsonify
-from mapper import DataMapper
-
-def is_proper_key(key: str):
-    if key != "Query":
-        return False
-    return True
+from mapperToChatGPT import DataMapperToChatGPT
+from mapperFromChatGPT import DataMapperFromChatGPT
+from utilities import is_proper_key, get_response, is_data_string_empty;
 
 app = Flask(__name__)
 
@@ -22,9 +19,15 @@ def query_data():
 
     user_text = data[key]
 
-    mapped_data = DataMapper.rephrase_request(self=DataMapper, user_text=user_text)
+    mapped_data = DataMapperToChatGPT.rephrase_request(self=DataMapperToChatGPT, user_text=user_text)
+    response = get_response(mapped_data=mapped_data)
 
-    return jsonify(mapped_data), 200
+    mapped_response_data = DataMapperFromChatGPT.get_message_from_response(self=DataMapperFromChatGPT, response=response)
+
+    if is_data_string_empty(mapped_response_data):
+        return jsonify("No response or invalid data", 503)
+
+    return jsonify(mapped_response_data), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
@@ -34,3 +37,6 @@ if __name__ == "__main__":
 # https://www.geeksforgeeks.org/python-get-dictionary-keys-as-a-list/
 # https://tedboy.github.io/flask/generated/generated/flask.Request.get_json.html
 # https://www.w3schools.com/python/ref_dictionary_keys.asp
+# https://www.geeksforgeeks.org/python-data-types/
+# https://platform.openai.com/docs/api-reference/introduction
+# VS code

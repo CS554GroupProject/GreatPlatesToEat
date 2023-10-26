@@ -1,13 +1,13 @@
-from mapper import DataMapper
+from mapperToChatGPT import DataMapperToChatGPT
 
 def test_rephrase_request():
-    chat_gpt_request_object = {
+    message_array = [{
         "role": "user",
         "content": "test",
-    }
+    }]
     assert (
-        DataMapper.rephrase_request(self=DataMapper, user_text="test")
-        == chat_gpt_request_object
+        DataMapperToChatGPT.rephrase_request(self=DataMapperToChatGPT, user_text="test")
+        == message_array
     )
 
 
