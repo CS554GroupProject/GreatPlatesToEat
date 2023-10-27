@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from mapper import DataMapper
+from ..views import GetResponse
 
 def is_proper_key(key: str):
     if key != "Query":
@@ -8,7 +8,7 @@ def is_proper_key(key: str):
 
 app = Flask(__name__)
 
-@app.route("/post", methods=["POST"])
+@app.route("/postToChatGPT", methods=["POST"])
 def query_data():
     data = request.get_json()
 
@@ -22,7 +22,7 @@ def query_data():
 
     user_text = data[key]
 
-    mapped_data = DataMapper.rephrase_request(self=DataMapper, user_text=user_text)
+    mapped_data = GetResponse.recipe_suggestion(self=GetResponse, prompt=user_text)
 
     return jsonify(mapped_data), 200
 
