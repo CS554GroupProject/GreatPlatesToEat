@@ -1,18 +1,16 @@
 """This file includes all interactions with the chat gpt api"""
 import os
 import openai
-import pandas as pd
-import time
-from secret_key import API_KEY
+from .secret_key import API_KEY
 
 openai.api_key = API_KEY
 
 class ChatInteractions:
     """
-    Class for interacting with the openai API
+    Class for interacting with the openai API - scalzone
     """
     def get_completion(self, prompt: str):
-        """Function to send a prompt to Chat-GPT"""
+        """Function to send a prompt to Chat-GPT - scalzone"""
         model = "gpt-3.5-turbo"
         messages = [{"role": "user", "content": prompt}]
         response = openai.ChatCompletion.create(
