@@ -1,20 +1,26 @@
 from flask import Flask, request, jsonify
 from ..views import GetResponse
 
-def is_proper_key(key: str):
+
+def is_proper_key(key: str) -> bool:
     if key != "Query":
         return False
     return True
 
+
 app = Flask(__name__)
 
+
+# Api accepts a POST request and has to be called using the endpoint postToChatGPT
 @app.route("/postToChatGPT", methods=["POST"])
 def query_data():
+    # gets the data, in JSON format, from the request
     data = request.get_json()
 
     if len(data) != 1:
         return jsonify("JSON object must only have 1 key-value pair"), 503
 
+    # The key where the message lies when the request is made
     key = list(data.keys())[0]
 
     if is_proper_key(key=key) is False:
@@ -25,6 +31,7 @@ def query_data():
     mapped_data = GetResponse.recipe_suggestion(self=GetResponse, prompt=user_text)
 
     return jsonify(mapped_data), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
