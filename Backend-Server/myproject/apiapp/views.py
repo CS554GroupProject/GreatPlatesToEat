@@ -2,7 +2,7 @@
 
 from rest_framework import generics
 from rest_framework.response import Response
-from third_party_interfaces import ChatInteractions
+from .third_party_interfaces import ChatInteractions
 from .models import *
 from .serializers import *
 
