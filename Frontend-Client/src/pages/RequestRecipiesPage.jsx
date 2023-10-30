@@ -9,7 +9,7 @@ const RequestRecipiesPage = (props) => {
     const textareaValue = event.target.querySelector('#input1').value;
     console.log('Form submitted with value:', textareaValue);
     form.reset();
-    // postToChatGPT(textareaValue);
+    postToChatGPT(JSON.stringify(textareaValue));
   };
 
   return <RecipieRequestForm onSubmit={onSubmitHandler} />;

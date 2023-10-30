@@ -5,7 +5,6 @@ const RecipieRequestForm = (props) => {
         <form
           onSubmit={(event) => {
             props.onSubmit(event);
-            console.log('ASDSADSADSAD');
           }}
           className="d-flex flex-column"
         >
