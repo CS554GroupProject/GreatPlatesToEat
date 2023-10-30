@@ -25,15 +25,33 @@ jobs:
       id: diff
       run: |
         git diff --exit-code || echo "::set-output name=black::changes"
-    - name: Set Git Identity
-      run: |
-        git config --local user.email "NathanMoes@github.com"
-        git config --local user.name "NathanMoes"
-    - name: Commit and push changes
+    - name: Create a new branch and push changes
       if: steps.diff.outputs.black == 'changes'
       run: |
+        # Set user identity
+        git config --local user.email "NathanMoes@github.com"
+        git config --local user.name "NathanMoes"
+    
+        # Create a new branch
+        BRANCH_NAME=formatting-changes-$(date +'%Y%m%d%H%M%S')
+        git checkout -b $BRANCH_NAME
+    
+        # Commit the changes
         git commit -am "Apply black formatting"
-        git push https://${{ secrets.GITHUB_TOKEN  }}@github.com/CS554GroupProject/GreatPlatesToEat.git HEAD:main
+    
+        # Push to the new branch
+        git push https://${{ secrets.GIVES_PERMS_TO_PUSH }}@github.com/CS554GroupProject/GreatPlatesToEat.git HEAD:$BRANCH_NAME
+  
+    - name: Create Pull Request
+      if: steps.diff.outputs.black == 'changes'
+      uses: repo-sync/pull-request@v2
+      with:
+        source_branch: ${{ env.BRANCH_NAME }}
+        destination_branch: "main"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_title: "Apply black formatting"
+        pr_body: "This PR applies black formatting to the codebase."
+        pr_label: "formatting"
 
 
   
