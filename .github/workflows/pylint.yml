@@ -25,13 +25,11 @@ jobs:
       id: diff
       run: |
         git diff --exit-code || echo "::set-output name=black::changes"
-    - name: Commit changes
-      uses: EndBug/add-and-commit@v7
-      with:
-        author_name: NathanMoes
-        author_email: NathanMoes@github.com
-        message: "Apply black formatting"
-        push: true
-        token: ${{ secrets.GIVES_PERMS_TO_PUSH }}
+    - name: Commit and push changes
+      if: steps.diff.outputs.black == 'changes'
+      run: |
+        git commit -am "Apply black formatting"
+        git push origin main
+
   
 
