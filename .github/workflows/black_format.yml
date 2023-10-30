@@ -1,0 +1,34 @@
+name: Black Code Formatter
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**.py'
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install black
+        run: pip install black
+
+      - name: Run black
+        run: python -m black backend/
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "Apply black formatting" || echo "No changes to commit"
+          git push
