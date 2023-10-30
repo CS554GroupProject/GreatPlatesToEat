@@ -29,9 +29,9 @@ def log_request(request):
         if form.is_valid():
             user_request = UserRequest.objects.create(
                 user=request.user,  # Assuming the user is authenticated
-                request=form.cleaned_data['request_text'],
+                request=form.cleaned_data["request_text"],
             )
-            return redirect('dashboard')
+            return redirect("dashboard")
     else:
         form = RequestForm()
 
