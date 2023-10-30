@@ -11,8 +11,8 @@ import json
 
 
 # class ItemListCreate(generics.ListCreateAPIView):
-    # queryset = Item.objects.all()
-    # serializer_class = ItemSerializer
+# queryset = Item.objects.all()
+# serializer_class = ItemSerializer
 
 
 class GetResponse:
@@ -53,13 +53,13 @@ def hello(data: HttpRequest) -> HttpResponse:
     user_text_key_value_pair = json.loads(user_text_key_value_pair)
 
     if len(user_text_key_value_pair) != 1:
-      return HttpResponse("JSON object must only have 1 key-value pair")
+        return HttpResponse("JSON object must only have 1 key-value pair")
 
     # The key where the message lies when the request is made
     key = list(user_text_key_value_pair.keys())[0]
 
     if is_proper_key(key=key) is False:
-       return HttpResponse("Improper key name for key-value pair")
+        return HttpResponse("Improper key name for key-value pair")
 
     user_text = user_text_key_value_pair[key]
 
