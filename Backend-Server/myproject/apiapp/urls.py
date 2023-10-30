@@ -1,8 +1,7 @@
 from django.urls import path
-# from .views import ItemListCreate
-from .views import hello
+from .views import hello, log_request
 
 urlpatterns = [
-    # path("items/", views.ItemListCreate.as_view(), name="item-list-create"),
-    path("", hello)
+    path("", hello),
+    path("log_request/", log_request, name='log_request'),
 ]

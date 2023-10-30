@@ -8,11 +8,9 @@ from .serializers import *
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 import json
-
-
-# class ItemListCreate(generics.ListCreateAPIView):
-    # queryset = Item.objects.all()
-    # serializer_class = ItemSerializer
+from django.shortcuts import render, redirect
+from .forms import RequestForm
+from .models import UserRequest
 
 
 class GetResponse:
@@ -31,8 +29,9 @@ def log_request(request):
         form = RequestForm(request.POST)
         if form.is_valid():
             user_request = UserRequest.objects.create(
-                user=request.user,  # Assuming the user is authenticated
+                user=request.user,
                 request=form.cleaned_data["request_text"],
+                recipes_to_receive=form.cleaned_data["recipes_to_receive"]
             )
             return redirect("dashboard")
     else:
