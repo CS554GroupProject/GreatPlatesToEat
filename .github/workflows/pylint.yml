@@ -33,5 +33,5 @@ jobs:
         git commit -am "Apply black formatting"
         git push origin HEAD:main --force-with-lease
       env:
-        GITHUB_TOKEN: ${{ secrets.GIVES_PERMS_TO_PUSH }}
+        GITHUB_TOKEN: ${{ secrets.GIVES_PERMS_TO_PUSH }} 
 
