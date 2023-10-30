@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const addressOfTheBackendServer = 'localhost:8000/';
+const addressOfTheBackendServer = 'http://localhost:8000/';
 
 /**
  * Send a query to the backend ChatGPT API.
@@ -9,7 +9,7 @@ const addressOfTheBackendServer = 'localhost:8000/';
  * @returns {Promise<any>} - The response from the server.
  */
 export function postToChatGPT(userData) {
-  const url = `${addressOfTheBackendServer}/postToChatGPT`;
+  const url = `${addressOfTheBackendServer}`;
 
   return axios
     .post(url, {
