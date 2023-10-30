@@ -29,6 +29,8 @@ jobs:
       if: steps.diff.outputs.black == 'changes'
       run: |
         git commit -am "Apply black formatting"
+        git config --local user.email "NathanMoes@github.com"
+        git config --local user.name "NathanMoes"
         git push origin main
 
   
