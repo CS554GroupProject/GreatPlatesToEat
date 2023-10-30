@@ -31,7 +31,7 @@ def log_request(request):
             user_request = UserRequest.objects.create(
                 user=request.user,
                 request=form.cleaned_data["request_text"],
-                recipes_to_receive=form.cleaned_data["recipes_to_receive"]
+                recipes_to_receive=form.cleaned_data["recipes_to_receive"],
             )
             return redirect("dashboard")
     else:
@@ -52,13 +52,13 @@ def hello(data: HttpRequest) -> HttpResponse:
     user_text_key_value_pair = json.loads(user_text_key_value_pair)
 
     if len(user_text_key_value_pair) != 1:
-      return HttpResponse("JSON object must only have 1 key-value pair")
+        return HttpResponse("JSON object must only have 1 key-value pair")
 
     # The key where the message lies when the request is made
     key = list(user_text_key_value_pair.keys())[0]
 
     if is_proper_key(key=key) is False:
-       return HttpResponse("Improper key name for key-value pair")
+        return HttpResponse("Improper key name for key-value pair")
 
     user_text = user_text_key_value_pair[key]
 
