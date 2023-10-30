@@ -20,8 +20,6 @@ jobs:
         pip install pylint
         cd Backend-Server
         pip install -r requirements.txt
-    - name: run black formatting
-      run: |
         python -m black .
     - name: Check for formatting differences
       id: diff
