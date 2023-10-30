@@ -31,4 +31,7 @@ jobs:
         git config --local user.email "NathanMoes@github.com"
         git config --local user.name "NathanMoes"
         git commit -am "Apply black formatting"
-        git push
+        git push origin HEAD:<your-branch-name> --force-with-lease
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIVES_PERMS_TO_PUSH }}
+
