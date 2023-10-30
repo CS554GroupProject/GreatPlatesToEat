@@ -43,15 +43,16 @@ jobs:
         git push https://${{ secrets.GIVES_PERMS_TO_PUSH }}@github.com/CS554GroupProject/GreatPlatesToEat.git HEAD:$BRANCH_NAME
   
     - name: Create Pull Request
-      if: steps.diff.outputs.black == 'changes'
+      if: steps.diff.outputs.black == 'changes' # Only run if there are changes.
       uses: repo-sync/pull-request@v2
       with:
-        source_branch: ${{ env.BRANCH_NAME }}
+        source_branch: $BRANCH_NAME
         destination_branch: "main"
         github_token: ${{ secrets.GITHUB_TOKEN }}
         pr_title: "Apply black formatting"
         pr_body: "This PR applies black formatting to the codebase."
         pr_label: "formatting"
+
 
 
   
