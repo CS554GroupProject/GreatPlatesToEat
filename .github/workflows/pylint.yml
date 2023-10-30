@@ -20,6 +20,17 @@ jobs:
         pip install pylint
         cd Backend-Server
         pip install -r requirements.txt
-    - name: Analysing the code with pylint
+    - name: run black formatting
       run: |
-        pylint $(git ls-files '*.py')
+        python -m black .
+    - name: Check for formatting differences
+      id: diff
+      run: |
+        git diff --exit-code || echo "black::changes" >> $GITHUB_ENV
+    - name: Commit and push changes
+      if: env.black == 'changes'
+      run: |
+        git config --local user.email "NathanMoes@github.com"
+        git config --local user.name "NathanMoes"
+        git commit -am "Apply black formatting"
+        git push
