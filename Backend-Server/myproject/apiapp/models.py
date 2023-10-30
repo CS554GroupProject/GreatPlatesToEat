@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Item(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -15,11 +16,7 @@ class User(models.Model):
     password = models.CharField(max_length=100)
 
 
-
-
 class UserRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     request = models.TextField()
     recipes_to_receive = models.IntegerField()
-
-

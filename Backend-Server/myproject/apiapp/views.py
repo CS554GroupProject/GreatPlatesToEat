@@ -14,6 +14,7 @@ class ItemListCreate(generics.ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
+
 class GetResponse:
     """class to get responses - scalzone"""
 
@@ -24,6 +25,7 @@ class GetResponse:
         response = user_request.get_completion(prompt)
         return response
 
+
 def log_request(request):
     if request.method == "POST":
         form = RequestForm(request.POST)
@@ -31,7 +33,7 @@ def log_request(request):
             user_request = UserRequest.objects.create(
                 user=request.user,
                 request=form.cleaned_data["request_text"],
-                recipes_to_receive=form.cleaned_data["recipes_to_receive"]
+                recipes_to_receive=form.cleaned_data["recipes_to_receive"],
             )
             return redirect("dashboard")
     else:
