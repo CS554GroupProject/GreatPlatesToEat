@@ -13,7 +13,7 @@ headers = {
 # Define the payload for the request
 data = {
     "prompt": "Translate the following English text to French: 'Hello, how are you?'",
-    "max_tokens": 150
+    "max_tokens": 150,
 }
 
 # Make the request to the API
@@ -26,4 +26,3 @@ if response.status_code == 200:
     print(f"Generated Text: {generated_text}")
 else:
     print(f"Error {response.status_code}: {response.text}")
-
