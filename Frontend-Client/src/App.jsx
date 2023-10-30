@@ -4,7 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import About from './pages/About';
-import RecipieRequestForm from './components/RecipieRequestForm';
+import RequestRecipiesPage from './pages/RequestRecipiesPage';
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
               element={<h1>This is the default page or path</h1>}
             />
             <Route path="/about" element={<About />} />
-            <Route path="/page1" element={<RecipieRequestForm />} />
+            <Route path="/page1" element={<RequestRecipiesPage />} />
           </Routes>
           <Footer />
         </div>
