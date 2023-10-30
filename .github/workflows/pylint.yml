@@ -25,13 +25,16 @@ jobs:
       id: diff
       run: |
         git diff --exit-code || echo "::set-output name=black::changes"
+    - name: Set Git Identity
+      run: |
+        git config --local user.email "NathanMoes@github.com"
+        git config --local user.name "NathanMoes"
     - name: Commit and push changes
       if: steps.diff.outputs.black == 'changes'
       run: |
         git commit -am "Apply black formatting"
-        git config --local user.email "NathanMoes@github.com"
-        git config --local user.name "NathanMoes"
-        git push origin main
+        git push https://${{ secrets.GITHUB_TOKEN  }}@github.com/CS554GroupProject/GreatPlatesToEat.git HEAD:main
+
 
   
 
