@@ -15,6 +15,8 @@ class User(models.Model):
     password = models.CharField(max_length=100)
 
 
+
+
 class UserRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     request = models.TextField()

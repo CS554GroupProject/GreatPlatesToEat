@@ -12,7 +12,6 @@ from django.shortcuts import render, redirect
 from .forms import RequestForm
 from .models import UserRequest
 
-
 class GetResponse:
     """class to get responses - scalzone"""
 
@@ -22,7 +21,6 @@ class GetResponse:
         response = None
         response = user_request.get_completion(prompt)
         return response
-
 
 def log_request(request):
     if request.method == "POST":
@@ -36,9 +34,6 @@ def log_request(request):
             return redirect("dashboard")
     else:
         form = RequestForm()
-
-    return render(request, "log_request.html", {"form": form})
-
 
 def is_proper_key(key: str) -> bool:
     if key != "Query":
