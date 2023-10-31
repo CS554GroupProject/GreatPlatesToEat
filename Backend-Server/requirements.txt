@@ -2,5 +2,6 @@ requests
 django
 djangorestframework
 openai
-Flask
+django-cors-headers
 black
+django-cors-middleware

@@ -62,3 +62,5 @@ def hello(data: HttpRequest) -> HttpResponse:
 
     # https://www.stackhawk.com/blog/django-cors-guide/
     # https://stackoverflow.com/questions/38482059/enabling-cors-cross-origin-request-in-django
+    # https://www.delftstack.com/howto/django/django-post-request/
+    # https://www.geeksforgeeks.org/how-to-convert-bytes-to-string-in-python/
