@@ -41,6 +41,7 @@ const RecipieRequestForm = (props) => {
           </button>
         </form>
       </div>
+      <div className="d-flex flex-direction-row justify-content-center">Response: {props.response}</div>
     </>
   );
 };
