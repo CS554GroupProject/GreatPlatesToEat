@@ -46,7 +46,7 @@ class Request_Unit_Test(unittest.TestCase):
 
     def test_create_user_request(self):
         #user = User.objects.create_user(username='secondUser', password='Pass@123')
-        form_data = {'user_name': 'Jawaher Alsaiari','request_text': 'This is a valid test', 'recipes_to_receive': 3}
+        form_data = {'user_name': 'Jawaher', 'request_text': 'This is a valid test', 'recipes_to_receive': 3}
 
         create_user_request(form_data)
 

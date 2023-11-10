@@ -15,7 +15,7 @@ const RecipieRequestForm = (props) => {
               type="text"
               className="form-control w-75 mx-auto"
               id="user_name"
-              placeholder="Enter query"
+              placeholder="Enter username"
             />
           </div>
           <div className="form-group">
