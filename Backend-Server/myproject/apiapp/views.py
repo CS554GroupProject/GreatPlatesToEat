@@ -26,14 +26,20 @@ def log_request(request):
     if request.method == "POST":
         form = RequestForm(request.POST)
         if form.is_valid():
-            user_request = UserRequest.objects.create(
-                user=request.user,
-                request=form.cleaned_data["request_text"],
-                recipes_to_receive=form.cleaned_data["recipes_to_receive"]
-            )
+            create_user_request(request.user, form.cleaned_data)
             return redirect("dashboard")
     else:
         form = RequestForm()
+
+    return render(request, "log_request.html", {"form": form})
+
+def create_user_request(user, form_data):
+    UserRequest.objects.create(
+        user=user,
+        request=form_data["request_text"],
+        recipes_to_receive=form_data["recipes_to_receive"]
+    )
+
 
 def is_proper_key(key: str) -> bool:
     if key != "Query":
