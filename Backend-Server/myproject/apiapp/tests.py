@@ -5,7 +5,7 @@ from django.http import QueryDict
 from django.urls import reverse
 from .forms import RequestForm  
 from .models import UserRequest  
-from .views import log_request 
+from .views import log_request, create_user_request 
 
 class Request_Unit_Test(unittest.TestCase):
 
@@ -37,7 +37,7 @@ class Request_Unit_Test(unittest.TestCase):
 
     def valid_test_for_logRequest_get(self):
         request = self.factory.get(reverse('apiapp:log_request'))
-        request.user = self.user
+        #request.user = self.user
 
         response = log_request(request)
 
@@ -52,7 +52,7 @@ class Request_Unit_Test(unittest.TestCase):
 
         self.assertEqual(UserRequest.objects.count(), 1)
         user_request = UserRequest.objects.first()
-        self.assertEqual(user_request.request, form_data['user_name'])
+        self.assertEqual(user_request.user_name, form_data['user_name'])
         self.assertEqual(user_request.request, form_data['request_text'])
         self.assertEqual(user_request.recipes_to_receive, form_data['recipes_to_receive'])
 
