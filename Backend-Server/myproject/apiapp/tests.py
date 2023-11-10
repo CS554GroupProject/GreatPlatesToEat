@@ -14,9 +14,9 @@ class Request_Unit_Test(unittest.TestCase):
         self.user = User.objects.create_user(username='JAlsaiari', password='Ja@12345')
 
     def valid_test_for_logRequest(self):
-        data = {'log_test': 'This is a valid test', 'recipes_to_receive': 5}
+        data = {'user_name': 'Jawaher Alsaiari', 'log_test': 'This is a valid test', 'recipes_to_receive': 5}
         request = self.factory.post(reverse('apiapp:log_request'), data)
-        request.user = self.user
+        
 
         with unittest.mock.patch('apiapp.views.create_user_request') as mock_create_user_request:
             response = log_request(request)
@@ -25,7 +25,7 @@ class Request_Unit_Test(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
 
     def invalid_test_for_logRequest(self):
-        data = {'request_text': 'This is a valid test', 'recipes_to_receive': 'invalid'}
+        data = {'user_name': 'Jawaher Alsaiari', 'request_text': 'This is a valid test', 'recipes_to_receive': 'invalid'}
         request = self.factory.post(reverse('apiapp:log_request'), data)
         request.user = self.user
 
@@ -46,7 +46,7 @@ class Request_Unit_Test(unittest.TestCase):
 
     def test_create_user_request(self):
         user = User.objects.create_user(username='secondUser', password='Pass@123')
-        form_data = {'request_text': 'This is a valid test', 'recipes_to_receive': 3}
+        form_data = {'user_name': 'Jawaher Alsaiari','request_text': 'This is a valid test', 'recipes_to_receive': 3}
 
         create_user_request(user, form_data)
 
