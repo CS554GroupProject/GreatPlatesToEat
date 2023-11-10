@@ -21,5 +21,4 @@ class ChatInteractions:
             temperature=0,
         )
         return response.choices[0].message["content"]
-        #return prompt
-    
+        # return prompt
