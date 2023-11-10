@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect
 from .forms import RequestForm
 from .models import UserRequest
 
+
 class GetResponse:
     """class to get responses - scalzone"""
 
@@ -21,6 +22,7 @@ class GetResponse:
         response = None
         response = user_request.get_completion(prompt)
         return response
+
 
 def log_request(request):
     if request.method == "POST":
@@ -33,11 +35,12 @@ def log_request(request):
 
     return render(request, "log_request.html", {"form": form})
 
+
 def create_user_request(user, form_data):
     UserRequest.objects.create(
         user=user,
         request=form_data["request_text"],
-        recipes_to_receive=form_data["recipes_to_receive"]
+        recipes_to_receive=form_data["recipes_to_receive"],
     )
 
 
@@ -53,13 +56,13 @@ def hello(data: HttpRequest) -> HttpResponse:
     user_text_key_value_pair = json.loads(user_text_key_value_pair)
 
     if len(user_text_key_value_pair) != 1:
-      return HttpResponse("JSON object must only have 1 key-value pair")
+        return HttpResponse("JSON object must only have 1 key-value pair")
 
     # The key where the message lies when the request is made
     key = list(user_text_key_value_pair.keys())[0]
 
     if is_proper_key(key=key) is False:
-       return HttpResponse("Improper key name for key-value pair")
+        return HttpResponse("Improper key name for key-value pair")
 
     user_text = user_text_key_value_pair[key]
 
