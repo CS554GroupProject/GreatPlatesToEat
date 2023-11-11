@@ -1,5 +1,6 @@
 from .views import GetResponse
 
+
 def test_recipe_suggestion():
     """
     This is a test to ensure that the GetResponse class can interact
@@ -8,4 +9,4 @@ def test_recipe_suggestion():
     test_object = GetResponse()
     test_prompt = "please return the word 'Passed'"
     test_response = test_object.recipe_suggestion(test_prompt)
-    assert test_response == 'Passed'
+    assert test_response == "Passed"
