@@ -1,7 +1,7 @@
 """This file includes all interactions with the chat gpt api"""
 import os
 import openai
-from secret_key import API_KEY
+from .secret_key import API_KEY
 
 openai.api_key = API_KEY
 
