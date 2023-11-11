@@ -1,4 +1,4 @@
-from apiapp.views import GetResponse
+from .views import GetResponse
 
 def test_recipe_suggestion():
     """
