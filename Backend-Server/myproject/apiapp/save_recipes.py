@@ -29,13 +29,6 @@ class RecipeManager:
         """
         This function writes the recipe to the database.
 
-        Args:
-            name (_type_): _description_
-            desc (_type_): _description_
-            list (_type_): _description_
-            key (_type_): _description_
-            currentUser (_type_): _description_
-            database_name (_type_): _description_
         """
         database_name = 'recipe_database.json'
         with open(database_name, 'w') as myfile:
@@ -51,13 +44,3 @@ class RecipeManager:
             name (_type_): _description_
         """
         
-        
-        
-        
-
-#  const onSaveRecipeCard = (event, name, desc, list, key) => {
- #   console.log(
- #     `Name: ${name} Desc: ${desc} IngList: ${list} Key: ${key} Created by: ${currentUser}`
-  #  );
-   # // send some request to backend to save it
- # };        
