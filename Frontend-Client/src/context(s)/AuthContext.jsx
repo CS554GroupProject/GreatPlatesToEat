@@ -27,3 +27,5 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+// https://dayvster.com/blog/use-context-for-auth
