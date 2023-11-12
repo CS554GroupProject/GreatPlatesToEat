@@ -51,7 +51,7 @@ const RecipieRequestForm = (props) => {
             </select>
           </div>
           <button
-            className="btn btn-primary mx-auto py-2 mb-3"
+            className="btn btn-primary mx-auto py-2 mb-3 "
             type="submit"
             disabled={props.disabled}
           >
