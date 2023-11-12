@@ -1,21 +1,71 @@
-import RecipieRequestForm from '../components/RecipieRequestForm';
-import { postToChatGPT } from '../apis/postToChatGPT';
-import React from 'react';
+import RecipieRequestForm from "../components/RecipieRequestForm";
+import { postToChatGPT } from "../apis/postToChatGPT";
+import React, { useState } from "react";
+import RecipieCard from "../components/RecipieCard";
+import { useAuth } from "../context(s)/AuthContext";
 
 const RequestRecipiesPage = (props) => {
-  let [response, setResponse] = React.useState('');
+  const { currentUser, login, logout } = useAuth();
+  const [availableRecipes, setAvailableRecipes] = useState([]);
+  const [numRecipes, setNumRecipes] = useState(1);
+  const [query, setQuery] = useState("");
+  const [restrictions, setRestrictions] = useState("");
+
+  const onSaveRecipeCard = (event, name, desc, list, key) => {
+    console.log(
+      `Name: ${name} Desc: ${desc} IngList: ${list} Key: ${key} Created by: ${currentUser}`
+    );
+    // send some request to backend to save it
+  };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-
-    const form = event.target;
-    const textareaValue = event.target.querySelector('#input1').value;
-    console.log('Form submitted with value:', textareaValue);
-    form.reset();
-    postToChatGPT(JSON.stringify(textareaValue)).then((data) => setResponse(data));
+    setAvailableRecipes((prev) => {
+      return [
+        ...prev,
+        { query: query, numRequested: numRecipes, restrictions: restrictions },
+      ];
+    });
+    const responseDataForBackend = {
+      query: query,
+      numRequested: numRecipes,
+      restrictions: restrictions !== "" ? restrictions : "None",
+    };
+    console.log(responseDataForBackend);
+    postToChatGPT(JSON.stringify(responseDataForBackend))
+      .then((data) => setAvailableRecipes(JSON.parse(data)))
+      .catch((err) => console.log(err))
+      .finally(() => {
+        event.target.reset();
+      });
   };
 
-  return <RecipieRequestForm onSubmit={onSubmitHandler} response={response}/>;
+  return (
+    <>
+      <RecipieRequestForm
+        onSubmit={onSubmitHandler}
+        response={availableRecipes}
+        recipesCount={setNumRecipes}
+        query={setQuery}
+        restrictions={setRestrictions}
+        disabled={currentUser === null}
+      />
+      {availableRecipes !== null
+        ? availableRecipes.map((item, index) => {
+            return (
+              <RecipieCard
+                Name={item.query}
+                desc={item.numRequested}
+                ingredientsList={item.restrictions}
+                key={index}
+                indexOfCard={index}
+                onSave={onSaveRecipeCard}
+              />
+            );
+          })
+        : null}
+    </>
+  );
 };
 
 export default RequestRecipiesPage;

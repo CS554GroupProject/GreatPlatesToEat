@@ -1,7 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context(s)/AuthContext";
 
 const Header = () => {
+  const { currentUser, login, logout } = useAuth();
   return (
     // <header>
     //     <nav>
@@ -49,6 +51,24 @@ const Header = () => {
             </Link>
           </li>
         </ul>
+        <div className="ml-auto">
+          {currentUser ? (
+            <>
+              <div className="d-flex ml-auto">
+                <p className="mr-3 tex-center my-auto">
+                  {currentUser.username}
+                </p>
+                <button className="btn btn-primary" onClick={logout}>
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <button className="btn btn-primary" onClick={login}>
+              Login
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   );
