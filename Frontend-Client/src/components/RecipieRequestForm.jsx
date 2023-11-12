@@ -1,3 +1,5 @@
+import React from "react";
+
 const RecipieRequestForm = (props) => {
   return (
     <>
@@ -25,6 +27,17 @@ const RecipieRequestForm = (props) => {
               className="form-control w-75 mx-auto"
               id="input1"
               placeholder="Enter query"
+              onChange={(event) => props.query(event.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="input2"></label>
+            <textarea
+              type="text"
+              className="form-control w-75 mx-auto"
+              id="input2"
+              placeholder="Restrictions?"
+              onChange={(event) => props.restrictions(event.target.value)}
             />
           </div>
           <div className="form-group">
@@ -37,6 +50,7 @@ const RecipieRequestForm = (props) => {
             <select
               className="form-control w-75 mx-auto"
               id="exampleFormControlSelect1"
+              onChange={(event) => props.recipesCount(event.target.value)}
             >
               <option>1</option>
               <option>2</option>
@@ -45,12 +59,22 @@ const RecipieRequestForm = (props) => {
               <option>5</option>
             </select>
           </div>
-          <button className="btn btn-primary mx-auto py-2 mb-3" type="submit">
+          <button
+            className="btn btn-primary mx-auto py-2 mb-3"
+            type="submit"
+            disabled={props.disabled}
+          >
             Submit
           </button>
+          <div>
+            {props.disabled ? (
+              <p className="text-center">
+                Please Login before submitting a request
+              </p>
+            ) : null}
+          </div>
         </form>
       </div>
-      <div className="d-flex flex-direction-row justify-content-center">Response: {props.response}</div>
     </>
   );
 };
