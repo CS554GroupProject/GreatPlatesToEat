@@ -1,10 +1,26 @@
 class map_request:
-    def add_number_recipes_string_to_gpt_request(number_of_recipes: int, request: str) -> str:
-        if request.find("recipe") == -1:
-            if number_of_recipes == 1:
-                return request + " Give me 1 recipe."
-            return request + " Give me 2 recipes."
-        
-        if number_of_recipes == 1:
-           return request.replace("a recipe", str(number_of_recipes) + " recipe")
-        return request.replace("a recipe", str(number_of_recipes) + " recipes")
+    def return_number_strings_to_gpt_based_on_request(
+        number_of_recipes: int, request: str
+    ) -> list[str]:
+        requests_to_send_gpt: list[str] = [""]
+
+        if number_of_recipes <= 0:
+            return requests_to_send_gpt
+
+        requests_to_send_gpt.append(request)
+        requests_to_send_gpt.remove("")
+
+        i = 2
+        while i <= number_of_recipes:
+            if request.find(" an ") == -1:
+                requests_to_send_gpt.append(request.replace(" a ", " another "))
+            elif request.find(" a ") == -1:
+                requests_to_send_gpt.append(request.replace(" an ", " another "))
+
+            i = i + 1
+
+        return requests_to_send_gpt
+
+
+# https://www.w3schools.com/python/python_conditions.asp
+# https://www.geeksforgeeks.org/python-string-find/

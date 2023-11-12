@@ -11,6 +11,9 @@ import json
 from django.shortcuts import render, redirect
 from .forms import RequestForm
 from .models import UserRequest
+from .request_mapper import map_request
+from .spreadsheet import files
+
 
 class GetResponse:
     """class to get responses - scalzone"""
@@ -22,6 +25,7 @@ class GetResponse:
         response = user_request.get_completion(prompt)
         return response
 
+
 def log_request(request):
     if request.method == "POST":
         form = RequestForm(request.POST)
@@ -29,11 +33,12 @@ def log_request(request):
             user_request = UserRequest.objects.create(
                 user=request.user,
                 request=form.cleaned_data["request_text"],
-                recipes_to_receive=form.cleaned_data["recipes_to_receive"]
+                recipes_to_receive=form.cleaned_data["recipes_to_receive"],
             )
             return redirect("dashboard")
     else:
         form = RequestForm()
+
 
 def is_proper_key(key: str) -> bool:
     if key != "Query":
@@ -41,26 +46,38 @@ def is_proper_key(key: str) -> bool:
     return True
 
 
-def hello(data: HttpRequest) -> HttpResponse:
-    user_text_key_value_pair = str(data.body, "UTF-8")
+def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
+    all_recipe_responses: list = []
+    user_text_key_value_pairs = str(data.body, "UTF-8")
 
-    user_text_key_value_pair = json.loads(user_text_key_value_pair)
+    user_text_key_value_pairs = json.loads(user_text_key_value_pairs)
 
-    if len(user_text_key_value_pair) != 1:
-      return HttpResponse("JSON object must only have 1 key-value pair")
+    if len(user_text_key_value_pairs) != 1:
+        return HttpResponse("JSON object must only have 1 key-value pair")
 
     # The key where the message lies when the request is made
-    key = list(user_text_key_value_pair.keys())[0]
+    key = list(user_text_key_value_pairs.keys())[0]
 
     if is_proper_key(key=key) is False:
-       return HttpResponse("Improper key name for key-value pair")
+        return HttpResponse("Improper key name for key-value pair")
 
-    user_text = user_text_key_value_pair[key]
+    user_text = user_text_key_value_pairs[key]
 
-    mapped_data = GetResponse.recipe_suggestion(self=GetResponse, prompt=user_text)
-    return HttpResponse(mapped_data)
+    input_prompts_to_gpt = map_request.return_number_strings_to_gpt_based_on_request(
+        number_of_recipes=1, request=user_text
+    )
+
+    for prompt in input_prompts_to_gpt:
+        recipe_string = GetResponse.recipe_suggestion(self=GetResponse, prompt=prompt)
+        files.get_list_of_possible_ngredients(
+            "./apiapp/ingredients.csv"
+        )
+        all_recipe_responses.append(recipe_string)
+
+    return HttpResponse(json.dumps(all_recipe_responses))
 
     # https://www.stackhawk.com/blog/django-cors-guide/
     # https://stackoverflow.com/questions/38482059/enabling-cors-cross-origin-request-in-django
     # https://www.delftstack.com/howto/django/django-post-request/
     # https://www.geeksforgeeks.org/how-to-convert-bytes-to-string-in-python/
+    # https://www.w3schools.com/python/python_json.asp
