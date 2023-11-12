@@ -19,6 +19,7 @@ class files:
                     list_of_ingredients.append(ingredient_row[0])
         return list_of_ingredients
 
+
 # https://python-forum.io/thread-7889.html Used to see how to find csv file
 
 # Licence for the spreadsheet, Unknown

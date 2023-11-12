@@ -69,9 +69,7 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
 
     for prompt in input_prompts_to_gpt:
         recipe_string = GetResponse.recipe_suggestion(self=GetResponse, prompt=prompt)
-        files.get_list_of_possible_ngredients(
-            "./apiapp/ingredients.csv"
-        )
+        files.get_list_of_possible_ngredients("./apiapp/ingredients.csv")
         all_recipe_responses.append(recipe_string)
 
     return HttpResponse(json.dumps(all_recipe_responses))
