@@ -44,7 +44,6 @@ class Request_Unit_Test(unittest.TestCase):
         self.assertEqual(response.status_code, 200) 
         self.assertIsInstance(response.context['form'], RequestForm)
 
-# This is added to fix the issiue
 
 
 
