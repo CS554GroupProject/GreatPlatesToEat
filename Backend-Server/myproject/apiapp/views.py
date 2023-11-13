@@ -45,30 +45,28 @@ def create_user_request(form_data):
     )
 
 
-def is_proper_key(key: str) -> bool:
-    if key != "Query":
-        return False
-    return True
-
-
 def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
-    user_text_key_value_pairs = str(data.body, "UTF-8")
+    request = str(data.body, "UTF-8")
 
-    user_text_key_value_pairs = json.loads(user_text_key_value_pairs)
+    request = json.loads(request)
 
-    if len(user_text_key_value_pairs) != 1:
+    if len(request) != 1:
         return HttpResponse("JSON object must only have 1 key-value pair")
-
+    
     # The key where the message lies when the request is made
-    key = list(user_text_key_value_pairs.keys())[0]
+    key_in_request = list(request.keys())[0]
 
-    if is_proper_key(key=key) is False:
-        return HttpResponse("Improper key name for key-value pair")
+    form_data_from_request = request[key_in_request]
+    form_data_from_request = json.loads(form_data_from_request)
 
-    user_text = user_text_key_value_pairs[key]
+    query_key_in_form_data_from_request = list(form_data_from_request.keys())[0]
+    user_query_to_gpt = form_data_from_request[query_key_in_form_data_from_request]
+
+    num_requests_key_in_form_data_from_request = list(form_data_from_request.keys())[1]
+    num_requests_requested = form_data_from_request[num_requests_key_in_form_data_from_request]
 
     prompt_to_gpt = map_request.add_number_recipes_string_to_gpt_request(
-        number_of_recipes=1, request=user_text
+        number_of_recipes=num_requests_requested, request=user_query_to_gpt
     )
 
     list_of_possible_ingredients = files_opener.get_list_of_possible_ngredients(
@@ -80,10 +78,16 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
 
     shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(mapped_ingredients_file, recipe_string)
 
-    return HttpResponse(json.dumps(shopping_list))
+    response = {
+        "recipes_from_gpt": recipe_string,
+        "shopping list": shopping_list
+    }
+
+    return HttpResponse(json.dumps(response))
 
     # https://www.stackhawk.com/blog/django-cors-guide/
     # https://stackoverflow.com/questions/38482059/enabling-cors-cross-origin-request-in-django
     # https://www.delftstack.com/howto/django/django-post-request/
     # https://www.geeksforgeeks.org/how-to-convert-bytes-to-string-in-python/
     # https://www.w3schools.com/python/python_json.asp
+    # https://www.w3schools.com/python/ref_dictionary_keys.asp
