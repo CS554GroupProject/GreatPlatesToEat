@@ -16,6 +16,7 @@ from .spreadsheet import files_opener
 from .ingredients_mapper import ingredients_file_mapper
 from .shopping_list import shopping_list_generator
 
+
 class GetResponse:
     """class to get responses - scalzone"""
 
@@ -25,6 +26,7 @@ class GetResponse:
         response = None
         response = user_request.get_completion(prompt)
         return response
+
 
 def log_request(request):
     if request.method == "POST":
@@ -37,11 +39,12 @@ def log_request(request):
 
     return render(request, "log_request.html", {"form": form})
 
+
 def create_user_request(form_data):
     UserRequest.objects.create(
         user_name=form_data["user_name"],
         request=form_data["request_text"],
-        recipes_to_receive=form_data["recipes_to_receive"]
+        recipes_to_receive=form_data["recipes_to_receive"],
     )
 
 
@@ -72,13 +75,20 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     )
 
     list_of_possible_ingredients = files_opener.get_list_of_possible_ngredients(
-            "./apiapp/ingredients.csv")
-    
-    mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(ingredients=list_of_possible_ingredients)
-    
-    recipe_string = GetResponse.recipe_suggestion(self=GetResponse, prompt=prompt_to_gpt)
+        "./apiapp/ingredients.csv"
+    )
 
-    shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(mapped_ingredients_file, recipe_string)
+    mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(
+        ingredients=list_of_possible_ingredients
+    )
+
+    recipe_string = GetResponse.recipe_suggestion(
+        self=GetResponse, prompt=prompt_to_gpt
+    )
+
+    shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(
+        mapped_ingredients_file, recipe_string
+    )
 
     return HttpResponse(json.dumps(shopping_list))
 
