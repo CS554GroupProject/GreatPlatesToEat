@@ -1,6 +1,6 @@
-#from .views import GetResponse
+# from .views import GetResponse
 
-#def test_recipe_suggestion():
+# def test_recipe_suggestion():
 #    """
 #    This is a test to ensure that the GetResponse class can interact
 #    with the openai api.
