@@ -1,9 +1,9 @@
 import csv
 
 
-class files:
-    def get_list_of_possible_ngredients(filename: str) -> list[str]:
-        list_of_ingredients: list[str] = [""]
+class files_opener:
+    def get_list_of_possible_ngredients(filename: str) -> list:
+        list_of_ingredients: list = []
 
         with open(filename, "r") as csv_file:
             dialect = "excel"
@@ -21,4 +21,4 @@ class files:
 
 # https://python-forum.io/thread-7889.html Used to see how to find csv file
 
-# Licence for the spreadsheet, Unknown
+# Licence for the spreadsheet, Other, Apache 2.0 open source license. https://www.kaggle.com/datasets/thedevastator/now-with-more-nutrients/data

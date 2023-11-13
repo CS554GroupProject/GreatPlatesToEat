@@ -1,4 +1,4 @@
-from .spreadsheet import files
+from .spreadsheet import files_opener
 
 
 def test_get_list_of_possible_ingredients(mocker):
@@ -7,10 +7,10 @@ def test_get_list_of_possible_ingredients(mocker):
     mocker.patch("builtins.open", mock_file)
     mocker.patch("csv.reader")
 
-    ingredients_list = files.get_list_of_possible_ngredients(filename=filename)
+    ingredients_list = files_opener.get_list_of_possible_ngredients(filename=filename)
     mock_file.assert_called_once_with(filename, "r")
 
-    assert ingredients_list == [""]
+    assert ingredients_list == []
 
 
 def test_get_list_of_possible_ingredients_list_with_1_element(mocker):
@@ -23,7 +23,7 @@ def test_get_list_of_possible_ingredients_list_with_1_element(mocker):
     )
     mock_file.assert_called_once_with(filename, "r")
 
-    assert ingredients_list == ["", ""]
+    assert ingredients_list == [""]
 
 
 def test_get_list_of_possible_ingredients_list_with_2_elements(mocker):
@@ -36,12 +36,12 @@ def test_get_list_of_possible_ingredients_list_with_2_elements(mocker):
     )
     mock_file.assert_called_once_with(filename, "r")
 
-    assert ingredients_list == ["", "", ""]
+    assert ingredients_list == ["", ""]
 
 
 class fake_files:
-    def get_list_of_possible_ngredients_file_with_1_element(filename: str) -> list[str]:
-        list_of_ingredients: list[str] = [""]
+    def get_list_of_possible_ngredients_file_with_1_element(filename: str) -> list:
+        list_of_ingredients: list = []
 
         with open(filename, "r") as csv_file:
             dialect = "excel"
@@ -56,8 +56,8 @@ class fake_files:
 
     def get_list_of_possible_ngredients_file_with_2_elements(
         filename: str,
-    ) -> list[str]:
-        list_of_ingredients: list[str] = [""]
+    ) -> list:
+        list_of_ingredients: list = []
 
         with open(filename, "r") as csv_file:
             dialect = "excel"

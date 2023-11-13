@@ -1,14 +1,13 @@
 class map_request:
     def return_number_strings_to_gpt_based_on_request(
         number_of_recipes: int, request: str
-    ) -> list[str]:
-        requests_to_send_gpt: list[str] = [""]
+    ) -> list:
+        requests_to_send_gpt: list = []
 
         if number_of_recipes <= 0:
             return requests_to_send_gpt
 
         requests_to_send_gpt.append(request)
-        requests_to_send_gpt.remove("")
 
         i = 2
         while i <= number_of_recipes:
