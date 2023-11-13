@@ -1,4 +1,4 @@
-class ingredients_object:
+class ingredients_file_mapper:
     def map_ingredient_entry(ingredient_entry: str) -> str:
         if ingredient_entry.strip() == "":
             return ""
@@ -21,32 +21,14 @@ class ingredients_object:
 
         return mapped_ingredient_entry.strip()
 
-    def map_ingredient_entries(ingredients: list[str]) -> list:
-        mapped_ingredients: list[str] = [""]
-
-        if ingredients[0] == "":
-            ingredients.remove("")
+    def return_mapped_ingredient_entries(ingredients: list) -> list:
+        mapped_ingredients: list = []
 
         for ingredient in ingredients:
-            mapped_ingredient = ingredients_object.map_ingredient_entry(
+            mapped_ingredient = ingredients_file_mapper.map_ingredient_entry(
                 ingredient_entry=ingredient
             )
 
             mapped_ingredients.append(mapped_ingredient)
 
-        mapped_ingredients.remove("")
         return mapped_ingredients
-
-    def return_list_of_ingredients(ingredients: list[str], response: str) -> list:
-        ingredients_to_get: list[str] = [""]
-
-        if ingredients[0] == "":
-            ingredients.remove("")
-
-        for ingredient in ingredients:
-            if response.find(ingredient) != -1:
-                ingredients_to_get.append(ingredient)
-
-        ingredients_to_get.remove("")
-
-        return ingredients_to_get

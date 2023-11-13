@@ -4,5 +4,5 @@
 # from .models import Item, User, UserRequest
 # from .apps import ApiappConfig
 # from .serializers import ItemSerializer
-from .ingredients import ingredients_object
+from .ingredients_mapper import ingredients_file_mapper
 from .request_mapper import map_request
