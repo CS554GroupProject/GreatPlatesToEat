@@ -70,19 +70,26 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     )
 
     list_of_possible_ingredients = files_opener.get_list_of_possible_ngredients(
-            "./apiapp/ingredients.csv")
-    
-    mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(ingredients=list_of_possible_ingredients)
+        "./apiapp/ingredients.csv"
+    )
+
+    mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(
+        ingredients=list_of_possible_ingredients
+    )
 
     string_of_all_recipes = ""
-    
+
     for prompt in input_prompts_to_gpt:
         recipe_string = GetResponse.recipe_suggestion(self=GetResponse, prompt=prompt)
         string_of_all_recipes = string_of_all_recipes + "\n" + recipe_string
-        
+
         all_recipe_responses.append(recipe_string)
 
-    shopping_list_for_all_recipes = shopping_list_generator.return_list_of_ingredients_to_get(mapped_ingredients_file, string_of_all_recipes)
+    shopping_list_for_all_recipes = (
+        shopping_list_generator.return_list_of_ingredients_to_get(
+            mapped_ingredients_file, string_of_all_recipes
+        )
+    )
 
     return HttpResponse(json.dumps(shopping_list_for_all_recipes))
 
