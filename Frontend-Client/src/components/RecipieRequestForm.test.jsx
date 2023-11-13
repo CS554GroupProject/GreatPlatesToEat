@@ -8,6 +8,10 @@ describe('RecipieRequestForm', () => {
       <RecipieRequestForm onSubmit={handleSubmit} response="Some response" />
     );
 
+    fireEvent.change(getByPlaceholderText('Enter username'), {
+      target: { value: 'Jawaher Alsaiari' },
+    });
+
     fireEvent.change(getByPlaceholderText('Enter query'), {
       target: { value: 'chicken noodle soup' },
     });

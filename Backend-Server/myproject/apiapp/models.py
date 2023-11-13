@@ -18,6 +18,6 @@ class User(models.Model):
 
 
 class UserRequest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_name = models.TextField()
     request = models.TextField()
     recipes_to_receive = models.IntegerField()

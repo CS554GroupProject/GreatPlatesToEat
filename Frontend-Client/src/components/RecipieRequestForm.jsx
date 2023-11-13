@@ -12,6 +12,15 @@ const RecipieRequestForm = (props) => {
         >
           <h2 className="text-light pt-3 text-center">Recipe request form</h2>
           <div className="form-group">
+            <label htmlFor="user name"></label>
+            <textarea
+              type="text"
+              className="form-control w-75 mx-auto"
+              id="user_name"
+              placeholder="Enter username"
+            />
+          </div>
+          <div className="form-group">
             <label htmlFor="input1"></label>
             <textarea
               type="text"
