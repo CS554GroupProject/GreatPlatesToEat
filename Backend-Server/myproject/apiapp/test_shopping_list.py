@@ -1,5 +1,6 @@
 from .shopping_list import shopping_list_generator
 
+
 def test_return_list_of_ingredients_to_get_list_has_no_ingredients():
     response: str = "needs eggs"
 
