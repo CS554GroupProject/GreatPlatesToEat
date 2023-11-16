@@ -45,6 +45,11 @@ def create_user_request(form_data):
     )
 
 
+def save_recipes(data: HttpRequest) -> HttpResponse:
+    # save functionality here
+    return HttpResponse(data)
+
+
 def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     request = str(data.body, "UTF-8")
 
