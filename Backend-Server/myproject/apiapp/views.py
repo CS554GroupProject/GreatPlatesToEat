@@ -15,12 +15,14 @@ from .request_mapper import map_request
 from .spreadsheet import files_opener
 from .ingredients_mapper import ingredients_file_mapper
 from .shopping_list import shopping_list_generator
+from .recipes import RecipeStorerProcessor, RecipeStorerValidator, RecipeStorerStorer
+from .save_recipes import RecipeManager
 
 class GetResponse:
     """class to get responses - scalzone"""
 
     def recipe_suggestion(self, prompt: str):
-        """This function takes in a prompt and returns a response - scalzone"""
+        """self function takes in a prompt and returns a response - scalzone"""
         user_request = ChatInteractions()
         response = None
         response = user_request.get_completion(prompt)
@@ -46,8 +48,18 @@ def create_user_request(form_data):
 
 
 def save_recipes(data: HttpRequest) -> HttpResponse:
-    # save functionality here
-    return HttpResponse(data)
+    request = str(data.body, "UTF-8")
+
+    request = json.loads(request)
+
+    validator = RecipeStorerValidator()
+    storer_manager = RecipeManager()
+    storer = RecipeStorerStorer(storer_manager)
+    processor = RecipeStorerProcessor(validator, storer)
+
+    message = processor.process(request)
+
+    return HttpResponse(message)
 
 
 def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
