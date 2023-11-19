@@ -9,6 +9,7 @@ import RequestRecipiesPage from './pages/RequestRecipiesPage';
 import { AuthProvider } from './context(s)/AuthContext';
 import { UserItemsProvider } from './context(s)/RecipeStorageContext';
 import SavedRecipesPage from './pages/SavedRecipiesPage';
+import Home from './pages/Home';
 
 const App = () => {
   return (
@@ -19,10 +20,7 @@ const App = () => {
             <div>
               <Header />
               <Routes>
-                <Route
-                  path="/"
-                  element={<h1>This is the default page or path</h1>}
-                />
+                <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/request" element={<RequestRecipiesPage />} />
                 <Route path="/login" element={<LoginPage />} />

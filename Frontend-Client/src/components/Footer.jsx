@@ -3,11 +3,13 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="fixed-bottom bg-light p-3 d-flex justify-content-between">
-      <p>Nathan Moes</p>
-      <p>Nicholas Scalzone</p>
-      <p>Alex Novitchkov-Burbank</p>
-      <p>Jawaher Alsaiari</p>
-      <p>SoftEng frontend project</p>
+      <div className="d-flex flex-row">
+        <p className="mx-3">Nathan Moes</p>
+        <p className="mx-3">Nicholas Scalzone</p>
+        <p className="mx-3">Alex Novitchkov-Burbank</p>
+        <p className="mx-3">Jawaher Alsaiari</p>
+      </div>
+      <p>SoftEng frontend project: Great plates to eat</p>
     </footer>
   );
 };
