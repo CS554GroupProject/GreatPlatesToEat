@@ -33,7 +33,7 @@ const RecipieRequestForm = (props) => {
           </div>
           <div className="form-group">
             <label
-              className="text-light text-center w-50 ml-3 mb-4"
+              className="text-light text-center w-50 ml-4 pl-4 mb-4"
               htmlFor="exampleFormControlSelect1"
             >
               Select number of recipes to receive

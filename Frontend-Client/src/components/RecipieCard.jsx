@@ -2,7 +2,7 @@ import React from 'react';
 
 const RecipieCard = (props) => {
   return (
-    <div className="card mx-auto w-50 mt-3 d-flex flex-flow-row">
+    <div className="card mx-auto w-25 mt-3 d-flex flex-flow-row bg-white rounded border border-primary shadow-lg">
       <div className="card-body">
         <h5 className="card-title text-center">{props.Name}</h5>
         <p className="card-text text-center">{props.desc}</p>
