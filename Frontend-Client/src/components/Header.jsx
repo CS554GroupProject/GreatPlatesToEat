@@ -5,15 +5,7 @@ import { useAuth } from '../context(s)/AuthContext';
 const Header = () => {
   const { currentUser, login, logout } = useAuth();
   return (
-    // <header>
-    //     <nav>
-    //         <Link to="/">Page 1</Link>
-    //         <Link to="/page2">Page 2</Link>
-    //         <Link to="/page3">Page 3</Link>
-    //         <Link to="/about">About</Link>
-    //     </nav>
-    // </header>
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
         Home
       </Link>
