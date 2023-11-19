@@ -79,5 +79,6 @@ def test_map_2_ingredient_entries():
     )
 
     assert mapped_ingredients == ["eggs", "blue cheese"]
-    
+
+
 # https://www.geeksforgeeks.org/getting-started-with-testing-in-python/
