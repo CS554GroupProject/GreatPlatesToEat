@@ -1,17 +1,25 @@
-import RecipieRequestForm from "../components/RecipieRequestForm";
-import { postToChatGPT } from "../apis/postToChatGPT";
-import React, { useState } from "react";
-import RecipieCard from "../components/RecipieCard";
-import { useAuth } from "../context(s)/AuthContext";
+import RecipieRequestForm from '../components/RecipieRequestForm';
+import { postToChatGPT } from '../apis/postToChatGPT';
+import React, { useState } from 'react';
+import RecipieCard from '../components/RecipieCard';
+import { useAuth } from '../context(s)/AuthContext';
+import { useUserItems } from '../context(s)/RecipeStorageContext';
 
 const RequestRecipiesPage = (props) => {
   const { currentUser, login, logout } = useAuth();
+  const { userItems, updateUserItems } = useUserItems();
   const [availableRecipes, setAvailableRecipes] = useState([]);
   const [numRecipes, setNumRecipes] = useState(1);
-  const [query, setQuery] = useState("");
-  const [restrictions, setRestrictions] = useState("");
+  const [query, setQuery] = useState('');
+  const [restrictions, setRestrictions] = useState('');
 
   const onSaveRecipeCard = (event, name, desc, list, key) => {
+    updateUserItems({
+      userName: currentUser !== null ? currentUser : 'Default user',
+      desc: desc,
+      list: list,
+      key: key,
+    });
     console.log(
       `Name: ${name} Desc: ${desc} IngList: ${list} Key: ${key} Created by: ${currentUser}`
     );
@@ -20,49 +28,57 @@ const RequestRecipiesPage = (props) => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    setAvailableRecipes((prev) => {
-      return [
-        ...prev,
-        { query: query, numRequested: numRecipes, restrictions: restrictions },
-      ];
-    });
     const responseDataForBackend = {
       query: query,
       numRequested: numRecipes,
-      restrictions: restrictions !== "" ? restrictions : "None",
+      restrictions: restrictions !== '' ? restrictions : 'None',
     };
+    setAvailableRecipes((prev) => {
+      return [
+        ...prev,
+        {
+          query: query,
+          numRequested: numRecipes,
+          restrictions: restrictions,
+          userName: currentUser,
+        },
+      ];
+    });
     console.log(responseDataForBackend);
     postToChatGPT(JSON.stringify(responseDataForBackend))
       .then((data) => console.log(data))
       .catch((err) => console.log(err))
       .finally(() => {
         event.target.reset();
-     });
+      });
   };
 
   return (
     <>
       <RecipieRequestForm
         onSubmit={onSubmitHandler}
-        response={availableRecipes}
         recipesCount={setNumRecipes}
         query={setQuery}
         restrictions={setRestrictions}
         disabled={currentUser === null}
       />
       {availableRecipes !== null
-        ? availableRecipes.map((item, index) => {
-            return (
-              <RecipieCard
-                Name={item.query}
-                desc={item.numRequested}
-                ingredientsList={item.restrictions}
-                key={index}
-                indexOfCard={index}
-                onSave={onSaveRecipeCard}
-              />
-            );
-          })
+        ? availableRecipes
+            .filter((item) => {
+              return item.userName === currentUser;
+            })
+            .map((item, index) => {
+              return (
+                <RecipieCard
+                  Name={item.query}
+                  desc={item.restrictions}
+                  ingredientsList={item.numRequested}
+                  key={index}
+                  indexOfCard={index}
+                  onSave={onSaveRecipeCard}
+                />
+              );
+            })
         : null}
     </>
   );

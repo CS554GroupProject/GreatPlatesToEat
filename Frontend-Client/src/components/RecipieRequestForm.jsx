@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const RecipieRequestForm = (props) => {
   return (
@@ -11,15 +11,6 @@ const RecipieRequestForm = (props) => {
           className="d-flex flex-column"
         >
           <h2 className="text-light pt-3 text-center">Recipe request form</h2>
-          <div className="form-group">
-            <label htmlFor="user name"></label>
-            <textarea
-              type="text"
-              className="form-control w-75 mx-auto"
-              id="user_name"
-              placeholder="Enter username"
-            />
-          </div>
           <div className="form-group">
             <label htmlFor="input1"></label>
             <textarea
@@ -42,7 +33,7 @@ const RecipieRequestForm = (props) => {
           </div>
           <div className="form-group">
             <label
-              className="text-light text-center w-50 ml-3 mb-4"
+              className="text-light text-center w-50 ml-4 pl-4 mb-4"
               htmlFor="exampleFormControlSelect1"
             >
               Select number of recipes to receive
@@ -68,7 +59,7 @@ const RecipieRequestForm = (props) => {
           </button>
           <div>
             {props.disabled ? (
-              <p className="text-center">
+              <p className="text-center text-white">
                 Please Login before submitting a request
               </p>
             ) : null}

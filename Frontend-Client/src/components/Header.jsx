@@ -1,19 +1,11 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../context(s)/AuthContext";
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context(s)/AuthContext';
 
 const Header = () => {
   const { currentUser, login, logout } = useAuth();
   return (
-    // <header>
-    //     <nav>
-    //         <Link to="/">Page 1</Link>
-    //         <Link to="/page2">Page 2</Link>
-    //         <Link to="/page3">Page 3</Link>
-    //         <Link to="/about">About</Link>
-    //     </nav>
-    // </header>
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
         Home
       </Link>
@@ -31,18 +23,13 @@ const Header = () => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <li className="nav-item active">
-            <Link className="nav-link" to="/page1">
-              Page 1
+            <Link className="nav-link" to="/request">
+              Send request
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/page2">
-              Page 2
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/page3">
-              Page 3
+            <Link className="nav-link" to="/saved">
+              Saved Items
             </Link>
           </li>
           <li className="nav-item">
@@ -64,9 +51,9 @@ const Header = () => {
               </div>
             </>
           ) : (
-            <button className="btn btn-primary" onClick={login}>
+            <Link to="/login" className="btn btn-primary">
               Login
-            </button>
+            </Link>
           )}
         </div>
       </div>
