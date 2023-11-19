@@ -5,7 +5,7 @@ tests for RecipeManager class
 from .save_recipes import RecipeManager
 
 #To configure tests, please add correct local address for database.
-address_key = '/Users/nicholasscalzone/Documents/COMPUTER SCIENCE CLASSES/CS554/GreatPlatesToEat/recipe_database.json'
+address_key = '/Users/nicholasscalzone/Documents/COMPUTER SCIENCE CLASSES/CS554/GreatPlatesToEat/test_recipe_database.json'
 
 def test_build_recipe():
     """test function for build recipe
@@ -31,7 +31,7 @@ def test_save_recipe():
     Test function to save a recipe
     """
     #Arrange
-    test_recipe = '{"recipe": "Recipe test contents", "user": "DefaultUser"}'
+    test_recipe = '{"recipe2": "Recipe test contents", "user": "DefaultUser"}'
     database_address = address_key
     
     #Act
