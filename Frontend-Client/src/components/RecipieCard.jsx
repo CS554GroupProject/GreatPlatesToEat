@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const RecipieCard = (props) => {
   return (
@@ -8,21 +8,23 @@ const RecipieCard = (props) => {
         <p className="card-text text-center">{props.desc}</p>
         <p className="card-text text-center">{props.ingredientsList}</p>
       </div>
-      <button
-        type="submit"
-        className="btn btn-success mx-auto mb-3"
-        onClick={(event) =>
-          props.onSave(
-            event,
-            props.Name,
-            props.desc,
-            props.ingredientsList,
-            props.indexOfCard
-          )
-        }
-      >
-        Save
-      </button>
+      {props.onSave !== null ? (
+        <button
+          type="submit"
+          className="btn btn-success mx-auto mb-3"
+          onClick={(event) =>
+            props.onSave(
+              event,
+              props.Name,
+              props.desc,
+              props.ingredientsList,
+              props.indexOfCard
+            )
+          }
+        >
+          Save
+        </button>
+      ) : null}
     </div>
   );
 };
