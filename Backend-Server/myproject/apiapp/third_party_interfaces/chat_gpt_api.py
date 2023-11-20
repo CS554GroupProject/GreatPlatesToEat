@@ -1,7 +1,8 @@
 """This file includes all interactions with the chat gpt api"""
 import os
 from openai import OpenAI
-from .secret_key import API_KEY
+#from .secret_key import API_KEY
+API_KEY = os.environ['API_KEY']
 client = OpenAI(api_key=API_KEY)
 
 class ChatInteractions:
