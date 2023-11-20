@@ -79,7 +79,7 @@ class RecipeManager:
     
 
 #Manual Testing
-
+"""
 address_key = '/Users/nicholasscalzone/Documents/COMPUTER SCIENCE CLASSES/CS554/GreatPlatesToEat/test_recipe_database.json'
 test_recipe = '{"recipe 4": "Recipe test contents 1", "user": "DefaultUser"}'
 database_address = address_key
@@ -93,3 +93,4 @@ else:
 test_save = test_recipe_manager.save_recipe(test_recipe, database_address)
 test_return = test_recipe_manager.retrieve_recipe(database_address, 2)
 print(test_return)
+"""
