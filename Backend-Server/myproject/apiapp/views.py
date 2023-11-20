@@ -15,7 +15,7 @@ from .request_mapper import map_request
 from .spreadsheet import files_opener
 from .ingredients_mapper import ingredients_file_mapper
 from .shopping_list import shopping_list_generator
-from .recipes import RecipeStorerProcessor, RecipeStorerValidator, RecipeStorerStorer
+from .recipes import RecipeStorerProcessor, RecipeStorerValidator, RecipeStorerStorer, RecipeRequesterFromDatabase
 from .save_recipes import RecipeManager
 
 class GetResponse:
@@ -46,6 +46,20 @@ def create_user_request(form_data):
         recipes_to_receive=form_data["recipes_to_receive"]
     )
 
+def get_recipe(data: HttpRequest) -> HttpResponse:
+    request = str(data.body, "UTF-8")
+
+    request = json.loads(request)
+
+    storer_manager = RecipeManager()
+    requesterFromDatabase = RecipeRequesterFromDatabase(storer_manager)
+
+    if (data is int) == False:
+        return HttpResponse("Expected a number for which recipe to return")
+    
+    recipes = requesterFromDatabase.request(data)
+
+    return HttpResponse(recipes)
 
 def save_recipes(data: HttpRequest) -> HttpResponse:
     request = str(data.body, "UTF-8")
