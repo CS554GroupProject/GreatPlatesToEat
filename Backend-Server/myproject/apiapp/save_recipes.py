@@ -80,7 +80,7 @@ class RecipeManager:
 
 #Manual Testing
 
-address_key = ''
+address_key = 'recipe_database.json'
 test_recipe = '{"recipe 4": "Recipe test contents 1", "user": "DefaultUser"}'
 database_address = address_key
     
