@@ -1,4 +1,4 @@
-from .recipes import recipe_storer_validator
+from .recipes import RecipeStorerValidator
 
 def recipe_storer_validate_all_data_present():
     recipe_record_to_store = {
@@ -8,6 +8,6 @@ def recipe_storer_validate_all_data_present():
         Key: "A",
         "Created By": "A"
     }
-    valid = recipe_storer_validator.validate(recipe_record_to_store)
+    valid = RecipeStorerValidator.validate(recipe_record_to_store)
 
     assert valid == True
