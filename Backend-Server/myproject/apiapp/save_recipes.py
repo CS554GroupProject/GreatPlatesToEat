@@ -80,7 +80,7 @@ class RecipeManager:
 
 #Manual Testing
 
-address_key = '/Users/nicholasscalzone/Documents/COMPUTER SCIENCE CLASSES/CS554/GreatPlatesToEat/test_recipe_database.json'
+address_key = ''
 test_recipe = '{"recipe 4": "Recipe test contents 1", "user": "DefaultUser"}'
 database_address = address_key
     
