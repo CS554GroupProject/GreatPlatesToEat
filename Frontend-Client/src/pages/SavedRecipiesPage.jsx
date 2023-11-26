@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context(s)/AuthContext';
 import { useUserItems } from '../context(s)/RecipeStorageContext';
 import RecipieCard from '../components/RecipieCard';
-import { fetchUserItems } from '../utils/api';
+import { fetchUserItems } from '../apis/recipeapi';
 
 const SavedRecipesPage = () => {
   const { currentUser } = useAuth();
