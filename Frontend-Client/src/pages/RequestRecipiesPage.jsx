@@ -32,6 +32,7 @@ const RequestRecipiesPage = (props) => {
       query: query,
       numRequested: numRecipes,
       restrictions: restrictions !== '' ? restrictions : 'None',
+      username: currentUser,
     };
     setAvailableRecipes((prev) => {
       return [
