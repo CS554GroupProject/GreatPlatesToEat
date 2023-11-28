@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context(s)/AuthContext';
 import { useUserItems } from '../context(s)/RecipeStorageContext';
 import RecipieCard from '../components/RecipieCard';
 import { fetchUserItems } from '../apis/recipeapi';
+import RecipeInputPage from './RecipeInputPage'; 
 
 const SavedRecipesPage = () => {
   const { currentUser } = useAuth();
   const [userItems, setUserItems] = useState([]);
+  const [recipeId, setRecipeId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getUserItems = async () => {
-      try {
-        const items = await fetchUserItems(currentUser, recipeId);
-        setUserItems(items);
-      } catch (error) {
-        console.error('Error fetching user items:', error);
-      }
-    };
+    if (recipeId) {
+      const getUserItems = async () => {
+        try {
+          const items = await fetchUserItems(currentUser, recipeId);
+          setUserItems(items);
+        } catch (error) {
+          console.error('Error fetching user items:', error);
+        }
+      };
 
-    getUserItems();
-  }, [currentUser]);
+      getUserItems();
+    }
+  }, [currentUser, recipeId]);
+
+  const handleRecipeIdSubmit = (id) => {
+    setRecipeId(id);
+  };
 
   const makeListOfSavedRecipes = () => {
     if (userItems.length === 0) {
@@ -43,7 +52,12 @@ const SavedRecipesPage = () => {
     ));
   };
 
-  return <>{makeListOfSavedRecipes()}</>;
+  return (
+    <>
+      <RecipeInputPage onSubmit={handleRecipeIdSubmit} />
+      {makeListOfSavedRecipes()}
+    </>
+  );
 };
 
 
