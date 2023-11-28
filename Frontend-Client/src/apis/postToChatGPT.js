@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const addressOfTheBackendServer = 'http://localhost:8000/';
+const addressOfTheBackendServer = 'http://localhost:8000/post_to_gpt/';
 
 /**
  * Send a query to the backend ChatGPT API.

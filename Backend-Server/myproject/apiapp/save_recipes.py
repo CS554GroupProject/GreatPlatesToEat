@@ -56,7 +56,7 @@ class RecipeManager:
                 return True
                 
                 
-    def retrieve_recipe(self, database_address, recipe_to_return:int):
+    def retrieve_recipe(self, database_address):
         """
         This function retrieves a recipe based on the username
         and the recipe name.
@@ -66,11 +66,11 @@ class RecipeManager:
             with open(database_address, 'r', encoding="utf-8") as myfile:
                 recipes = json.load(myfile)
                 if isinstance(recipes, dict):
-                    return recipes.get(recipe_to_return, None)
+                    return recipes
                 else:
                     recipe_dict = {recipes[i] for i in range(0, len(recipes))}
-                    #return recipe_dict
-                    return (list(recipe_dict)[recipe_to_return])
+                    return recipe_dict
+                    #return (list(recipe_dict)[recipe_to_return])
             
     
         except (json.JSONDecodeError, FileNotFoundError):
@@ -79,9 +79,9 @@ class RecipeManager:
     
 
 #Manual Testing
-
+"""
 address_key = 'recipe_database.json'
-test_recipe = '{"recipe 4": "Recipe test contents 1", "user": "DefaultUser"}'
+test_recipe = '{"recipe 3": "Recipe test contents 1", "user": "DefaultUser"}'
 database_address = address_key
     
 test_recipe_manager = RecipeManager()
@@ -90,6 +90,7 @@ if test_recipe_manager.is_empty(database_address):
 else:
     print("False")
 
-test_save = test_recipe_manager.save_recipe(test_recipe, database_address)
-test_return = test_recipe_manager.retrieve_recipe(database_address, 2)
+#test_save = test_recipe_manager.save_recipe(test_recipe, database_address)
+test_return = test_recipe_manager.retrieve_recipe(database_address)
 print(test_return)
+"""

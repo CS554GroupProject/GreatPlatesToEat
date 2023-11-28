@@ -2,6 +2,14 @@
 import os
 from openai import OpenAI
 from .secret_key import API_KEY
+
+# We added our key to Github secrets so that we could use  
+# Github actions in the future. We decided not to do that  
+# for the project since it got overly complex, but figured 
+# we'd show our attempt.                                   
+#API_KEY = os.environ['API_KEY']
+
+
 client = OpenAI(api_key=API_KEY)
 
 class ChatInteractions:
