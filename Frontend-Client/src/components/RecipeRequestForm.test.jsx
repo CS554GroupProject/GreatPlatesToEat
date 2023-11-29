@@ -1,11 +1,11 @@
 import { fireEvent, render } from '@testing-library/react';
-import RecipieRequestForm from './RecipieRequestForm';
+import RecipeRequestForm from './RecipeRequestForm';
 
-describe('RecipieRequestForm', () => {
+describe('RecipeRequestForm', () => {
   it('calls onSubmit prop function when the form is submitted', () => {
     const handleSubmit = jest.fn();
     const { getByPlaceholderText, getByText, getByLabelText } = render(
-      <RecipieRequestForm onSubmit={handleSubmit} response="Some response" />
+      <RecipeRequestForm onSubmit={handleSubmit} response="Some response" />
     );
 
     fireEvent.change(getByPlaceholderText('Enter username'), {
@@ -27,7 +27,7 @@ describe('RecipieRequestForm', () => {
 
   it('displays the response prop', () => {
     const { getByText } = render(
-      <RecipieRequestForm
+      <RecipeRequestForm
         onSubmit={() => {}}
         response="Grandmas chicken noodle soup"
       />

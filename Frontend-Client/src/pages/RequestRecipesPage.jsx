@@ -1,11 +1,11 @@
-import RecipieRequestForm from '../components/RecipieRequestForm';
+import RecipeRequestForm from '../components/RecipeRequestForm';
 import { postToChatGPT } from '../apis/postToChatGPT';
 import React, { useState } from 'react';
-import RecipieCard from '../components/RecipieCard';
+import RecipeCard from '../components/RecipeCard';
 import { useAuth } from '../context(s)/AuthContext';
 import { useUserItems } from '../context(s)/RecipeStorageContext';
 
-const RequestRecipiesPage = (props) => {
+const RequestRecipesPage = (props) => {
   const { currentUser, login, logout } = useAuth();
   const { userItems, updateUserItems } = useUserItems();
   const [availableRecipes, setAvailableRecipes] = useState([]);
@@ -56,7 +56,7 @@ const RequestRecipiesPage = (props) => {
 
   return (
     <>
-      <RecipieRequestForm
+      <RecipeRequestForm
         onSubmit={onSubmitHandler}
         recipesCount={setNumRecipes}
         query={setQuery}
@@ -70,7 +70,7 @@ const RequestRecipiesPage = (props) => {
             })
             .map((item, index) => {
               return (
-                <RecipieCard
+                <RecipeCard
                   Name={item.query}
                   desc={item.restrictions}
                   ingredientsList={item.numRequested}
@@ -85,7 +85,7 @@ const RequestRecipiesPage = (props) => {
   );
 };
 
-export default RequestRecipiesPage;
+export default RequestRecipesPage;
 
 // https://kinsta.com/knowledgebase/objects-are-not-valid-as-a-react-child/#:~:text=Another%20common%20cause%20of%20the%20error%20is%20incorrect,the%20array%20to%20a%20valid%20React%20child%20element.
 // https://rapidapi.com/blog/axios-react-api-tutorial/
