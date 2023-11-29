@@ -46,6 +46,8 @@ def create_user_request(form_data):
         recipes_to_receive=form_data["recipes_to_receive"]
     )
 
+
+'''
 def get_recipe(data: HttpRequest) -> HttpResponse:
     request = str(data.body, "UTF-8")
 
@@ -60,6 +62,24 @@ def get_recipe(data: HttpRequest) -> HttpResponse:
     recipes = requesterFromDatabase.request(data)
 
     return HttpResponse(recipes)
+'''
+
+def get_recipe(request: HttpRequest) -> HttpResponse:
+    try:
+        data = json.loads(request.body.decode("UTF-8"))
+        recipe_id = int(data.get("recipe_id", 0))
+    except (json.JSONDecodeError, ValueError):
+        return HttpResponse("Invalid data format or recipe_id is not a valid integer", status=400)
+
+    if not isinstance(recipe_id, int) or recipe_id < 0:
+        return HttpResponse("Expected a non-negative integer for recipe_id", status=400)
+
+    storer_manager = RecipeManager()
+    requester_from_database = RecipeRequesterFromDatabase(storer_manager)
+
+    recipes = requester_from_database.request(recipe_id)
+
+    return HttpResponse(json.dumps(recipes), content_type="application/json")
 
 def save_recipes(data: HttpRequest) -> HttpResponse:
     request = str(data.body, "UTF-8")

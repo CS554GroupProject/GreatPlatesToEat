@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RecipieCard = (props) => {
+const RecipeCard = (props) => {
   return (
     <div className="card mx-auto w-25 mt-3 d-flex flex-flow-row bg-white rounded border border-primary shadow-lg">
       <div className="card-body">
@@ -28,4 +28,4 @@ const RecipieCard = (props) => {
     </div>
   );
 };
-export default RecipieCard;
+export default RecipeCard;

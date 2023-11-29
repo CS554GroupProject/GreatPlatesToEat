@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RecipieRequestForm = (props) => {
+const RecipeRequestForm = (props) => {
   return (
     <>
       <div className="d-flex justify-content-center bg-dark mx-auto mt-5 rounded w-50 flex-column">
@@ -70,4 +70,4 @@ const RecipieRequestForm = (props) => {
   );
 };
 
-export default RecipieRequestForm;
+export default RecipeRequestForm;
