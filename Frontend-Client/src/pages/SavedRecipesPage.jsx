@@ -8,7 +8,8 @@ import RecipeSearchInput from '../components/RecipeSearchInput';
 
 const SavedRecipesPage = () => {
   const { currentUser } = useAuth();
-  const [userItems, setUserItems] = useState([]);
+  const [userItemsAPI, setUserItemsAPI] = useState([]);
+  const { userItems, updateUserItems } = useUserItems();
   const [recipeId, setRecipeId] = useState(null);
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const SavedRecipesPage = () => {
       const getUserItems = async () => {
         try {
           const items = await fetchUserItems(currentUser, recipeId);
-          setUserItems(items);
+          setUserItemsAPI(items);
         } catch (error) {
           console.error('Error fetching user items:', error);
         }
@@ -32,16 +33,34 @@ const SavedRecipesPage = () => {
   };
 
   const makeListOfSavedRecipes = () => {
-    if (userItems.length === 0) {
-      return (
-        <h1 className="text-center mt-5 bg-white rounded p-3 mx-5 shadow-lg">
-          No items for the current user. Please login if you have stored some
-          already.
-        </h1>
-      );
+    if (userItemsAPI.length === 0) {
+      if (userItems.length === 0) {
+        return (
+          <h1 className="text-center mt-5 bg-white rounded p-3 mx-5 shadow-lg">
+            No items for the current user. Please login if you have stored some
+            already.
+          </h1>
+        );
+      } else {
+        console.log('LOCAL STORAGE');
+        return (
+          <>
+            {userItems.map((item, index) => (
+              <RecipeCard
+                Name={item.userName}
+                desc={item.desc}
+                ingredientsList={item.list}
+                key={index}
+                indexOfCard={item.key}
+                onSave={null}
+              />
+            ))}
+          </>
+        );
+      }
     }
 
-    return userItems.map((item, index) => (
+    return userItemsAPI.map((item, index) => (
       <RecipeCard
         Name={item.userName}
         desc={item.desc}
@@ -55,8 +74,9 @@ const SavedRecipesPage = () => {
 
   return (
     <>
-      {makeListOfSavedRecipes()}
+      <h1>Test</h1>
       <RecipeSearchInput onSubmit={handleRecipeIdSubmit} />
+      {makeListOfSavedRecipes()}
     </>
   );
 };

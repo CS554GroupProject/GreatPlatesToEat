@@ -16,6 +16,7 @@ export const UserItemsProvider = ({ children }) => {
 
   // Function to update the data
   const updateUserItems = (item) => {
+    console.log('THING IS DOING THE STUFF NOW');
     setUserItems((prevItems) => [...prevItems, item]);
   };
 
