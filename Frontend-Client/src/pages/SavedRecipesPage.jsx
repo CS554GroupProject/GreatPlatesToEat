@@ -45,16 +45,18 @@ const SavedRecipesPage = () => {
         console.log('LOCAL STORAGE');
         return (
           <>
-            {userItems.map((item, index) => (
-              <RecipeCard
-                Name={item.userName}
-                desc={item.desc}
-                ingredientsList={item.list}
-                key={index}
-                indexOfCard={item.key}
-                onSave={null}
-              />
-            ))}
+            {userItems.map((item, index) =>
+              item.userName === currentUser ? (
+                <RecipeCard
+                  Name={item.userName}
+                  desc={item.desc}
+                  ingredientsList={item.list}
+                  key={index}
+                  indexOfCard={item.key}
+                  onSave={null}
+                />
+              ) : null
+            )}
           </>
         );
       }

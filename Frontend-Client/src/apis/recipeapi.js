@@ -1,8 +1,8 @@
-const BASE_URL = 'https://localhost:8000/'; 
+const BASE_URL = 'http://localhost:8000'; 
 
 export const fetchUserItems = async (currentUser, recipeId) => {
   try {
-    const response = await fetch(`${BASE_URL}/Backend-Server/myproject/apiapp/views.py/get_recipe`, {
+    const response = await fetch(`${BASE_URL}/get_recipe/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
