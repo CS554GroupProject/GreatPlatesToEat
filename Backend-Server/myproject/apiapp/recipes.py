@@ -13,8 +13,7 @@ class RecipeStorerStorer:
         self.manager = manager
 
     def store(self, recipe_record: dict) -> bool:
-        recipe_record_json = self.manager.build_recipe(recipe_record)
-        self.manager.save_recipe(recipe_record_json, recipes_database_address)
+        self.manager.save_recipe(recipe_record, recipes_database_address)
 
         return True
 
@@ -24,10 +23,11 @@ class RecipeStorerProcessor:
         self.validator = validator
         self.storer = storer
 
-    def process(self, data: str) -> str:
+    def process(self, data: dict) -> str:
         message: str = ""
+
         valid = self.validator.validate(data)
-        stored = self.storer.store(data)
+        stored = self.storer.store(data.get("Query"))
 
         if stored == True:
             message = "Recipe successfully stored"
@@ -44,7 +44,7 @@ class RecipeRequesterFromDatabase:
     def request_recipes_for_current_user(self, current_user: str):
         recipe_entries_to_return: dict = []
 
-        for recipe in recipe:
+        for recipe in recipe_entries_to_return:
             if (recipe.keys() < 5):
                 SystemError("A recipe entry must contain 5 properties")
             current_user_in_recipe_entry = recipe.keys()[4]
@@ -56,7 +56,7 @@ class RecipeRequesterFromDatabase:
     def request_all_data(self):
         recipes = self.manager.retrieve_recipe(recipes_database_address)
 
-        return recipe
+        return recipes
 
 
 # https://www.geeksforgeeks.org/constructors-in-python/
