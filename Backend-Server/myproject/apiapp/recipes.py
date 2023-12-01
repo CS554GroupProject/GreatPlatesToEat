@@ -45,10 +45,10 @@ class RecipeRequesterFromDatabase:
         recipe_entries_to_return: dict = []
 
         for recipe in recipe:
-            if (recipe.keys() < 5):
+            if recipe.keys() < 5:
                 SystemError("A recipe entry must contain 5 properties")
             current_user_in_recipe_entry = recipe.keys()[4]
-            if (current_user_in_recipe_entry == current_user):
+            if current_user_in_recipe_entry == current_user:
                 recipe_entries_to_return.push(recipe)
 
         return recipe_entries_to_return
