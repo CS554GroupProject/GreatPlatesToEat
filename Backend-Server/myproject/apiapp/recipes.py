@@ -13,8 +13,8 @@ class RecipeStorerStorer:
         self.manager = manager
 
     def store(self, recipe_record: dict) -> bool:
-        self.manager.build_recipe(recipe_record)
-        self.manager.save_recipe(recipe_record, recipes_database_address)
+        recipe_record_json = self.manager.build_recipe(recipe_record)
+        self.manager.save_recipe(recipe_record_json, recipes_database_address)
 
         return True
 
@@ -41,8 +41,20 @@ class RecipeRequesterFromDatabase:
     def __init__(self, manager: RecipeManager):
         self.manager = manager
 
-    def request(self, recipe_number: int):
-        recipe = self.manager.retrieve_recipe(recipes_database_address, recipe_number)
+    def request_recipes_for_current_user(self, current_user: str):
+        recipe_entries_to_return: dict = []
+
+        for recipe in recipe:
+            if (recipe.keys() < 5):
+                SystemError("A recipe entry must contain 5 properties")
+            current_user_in_recipe_entry = recipe.keys()[4]
+            if (current_user_in_recipe_entry == current_user):
+                recipe_entries_to_return.push(recipe)
+
+        return recipe_entries_to_return
+
+    def request_all_data(self):
+        recipes = self.manager.retrieve_recipe(recipes_database_address)
 
         return recipe
 
