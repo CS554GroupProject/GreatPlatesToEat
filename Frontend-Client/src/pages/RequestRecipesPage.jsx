@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import RecipeCard from '../components/RecipeCard';
 import { useAuth } from '../context(s)/AuthContext';
 import { useUserItems } from '../context(s)/RecipeStorageContext';
+import { postToSaveRecipes } from '../apis/postToSaveRecipes';
 
 const RequestRecipesPage = (props) => {
   const { currentUser, login, logout } = useAuth();
@@ -23,6 +24,12 @@ const RequestRecipesPage = (props) => {
     console.log(
       `Name: ${name} Desc: ${desc} IngList: ${list} Key: ${key} Created by: ${currentUser}`
     );
+    postToSaveRecipes({
+      userName: currentUser !== null ? currentUser : 'Default user',
+      desc: desc,
+      list: list,
+      key: key,
+    });
     // send some request to backend to save it
   };
 
