@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpRequest
 import json
 from django.contrib.auth.models import User
 
+
 class GetResponse:
     """class to get responses - scalzone"""
 
@@ -16,6 +17,7 @@ class GetResponse:
         user_request = ChatInteractions()
         response = user_request.get_completion(prompt)
         return response
+
 
 def log_request(request):
     if request.method == "POST":
@@ -28,6 +30,7 @@ def log_request(request):
 
     return render(request, "log_request.html", {"form": form})
 
+
 def create_user_request(username, form_data):
     # Get the User instance using the provided username
     user_instance, created = User.objects.get_or_create(username=username)
@@ -36,13 +39,15 @@ def create_user_request(username, form_data):
     UserRequest.objects.create(
         user=user_instance,
         request=form_data["request_text"],
-        recipes_to_receive=form_data["recipes_to_receive"]
+        recipes_to_receive=form_data["recipes_to_receive"],
     )
+
 
 def is_proper_key(key: str) -> bool:
     if key != "Query":
         return False
     return True
+
 
 def hello(data: HttpRequest) -> HttpResponse:
     user_text_key_value_pair = str(data.body, "UTF-8")

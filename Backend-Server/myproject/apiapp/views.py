@@ -15,8 +15,14 @@ from .request_mapper import map_request
 from .spreadsheet import files_opener
 from .ingredients_mapper import ingredients_file_mapper
 from .shopping_list import shopping_list_generator
-from .recipes import RecipeStorerProcessor, RecipeStorerValidator, RecipeStorerStorer, RecipeRequesterFromDatabase
+from .recipes import (
+    RecipeStorerProcessor,
+    RecipeStorerValidator,
+    RecipeStorerStorer,
+    RecipeRequesterFromDatabase,
+)
 from .save_recipes import RecipeManager
+
 
 class GetResponse:
     """class to get responses - scalzone"""
@@ -27,6 +33,7 @@ class GetResponse:
         response = None
         response = user_request.get_completion(prompt)
         return response
+
 
 def log_request(request):
     if request.method == "POST":
@@ -39,15 +46,16 @@ def log_request(request):
 
     return render(request, "log_request.html", {"form": form})
 
+
 def create_user_request(form_data):
     UserRequest.objects.create(
         user_name=form_data["user_name"],
         request=form_data["request_text"],
-        recipes_to_receive=form_data["recipes_to_receive"]
+        recipes_to_receive=form_data["recipes_to_receive"],
     )
 
 
-'''
+"""
 def get_recipe(data: HttpRequest) -> HttpResponse:
     request = str(data.body, "UTF-8")
 
@@ -62,7 +70,7 @@ def get_recipe(data: HttpRequest) -> HttpResponse:
     recipes = requesterFromDatabase.request(data)
 
     return HttpResponse(recipes)
-'''
+"""
 
 """ def get_recipe(request: HttpRequest) -> HttpResponse:
     try:
@@ -81,12 +89,16 @@ def get_recipe(data: HttpRequest) -> HttpResponse:
 
     return HttpResponse(json.dumps(recipes), content_type="application/json")
  """
+
+
 def get_recipe(request: HttpRequest) -> HttpResponse:
     try:
         data = json.loads(request.body.decode("UTF-8"))
         current_user = str(data.get("current_user"))
     except (json.JSONDecodeError, ValueError):
-        return HttpResponse("Invalid data format or current_user is not a string", status=500)
+        return HttpResponse(
+            "Invalid data format or current_user is not a string", status=500
+        )
 
     if not isinstance(current_user, str):
         return HttpResponse("Need a username to get recipes", status=500)
@@ -97,6 +109,7 @@ def get_recipe(request: HttpRequest) -> HttpResponse:
     recipes = requester_from_database.request_recipes_for_current_user(current_user)
 
     return HttpResponse(json.dumps(recipes), content_type="application/json")
+
 
 def save_recipes(data: HttpRequest) -> HttpResponse:
     request = str(data.body, "UTF-8")
@@ -120,7 +133,7 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
 
     if len(request) != 1:
         return HttpResponse("JSON object must only have 1 key-value pair")
-    
+
     # The key where the message lies when the request is made
     key_in_request = list(request.keys())[0]
 
@@ -131,25 +144,31 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     user_query_to_gpt = form_data_from_request[query_key_in_form_data_from_request]
 
     num_requests_key_in_form_data_from_request = list(form_data_from_request.keys())[1]
-    num_requests_requested = form_data_from_request[num_requests_key_in_form_data_from_request]
+    num_requests_requested = form_data_from_request[
+        num_requests_key_in_form_data_from_request
+    ]
 
     prompt_to_gpt = map_request.add_number_recipes_string_to_gpt_request(
         number_of_recipes=num_requests_requested, request=user_query_to_gpt
     )
 
     list_of_possible_ingredients = files_opener.get_list_of_possible_ngredients(
-            "./apiapp/ingredients.csv")
-    
-    mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(ingredients=list_of_possible_ingredients)
-    
-    recipe_string = GetResponse.recipe_suggestion(self=GetResponse, prompt=prompt_to_gpt)
+        "./apiapp/ingredients.csv"
+    )
 
-    shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(mapped_ingredients_file, recipe_string)
+    mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(
+        ingredients=list_of_possible_ingredients
+    )
 
-    response = {
-        "recipes_from_gpt": recipe_string,
-        "shopping list": shopping_list
-    }
+    recipe_string = GetResponse.recipe_suggestion(
+        self=GetResponse, prompt=prompt_to_gpt
+    )
+
+    shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(
+        mapped_ingredients_file, recipe_string
+    )
+
+    response = {"recipes_from_gpt": recipe_string, "shopping list": shopping_list}
 
     return HttpResponse(json.dumps(response))
 
