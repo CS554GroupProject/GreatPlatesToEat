@@ -106,14 +106,15 @@ def get_recipe(request: HttpRequest) -> HttpResponse:
         storer_manager = RecipeManager()
         requester_from_database = RecipeRequesterFromDatabase(storer_manager)
 
-        recipes = requester_from_database.request_recipes_for_current_user(
-            current_user)
+        recipes = requester_from_database.request_recipes_for_current_user(current_user)
 
         print(recipes)
 
         return HttpResponse(json.dumps(recipes), content_type="application/json")
     except (json.JSONDecodeError, ValueError):
-        return HttpResponse("Invalid data format or current_user is not a string", status=500)
+        return HttpResponse(
+            "Invalid data format or current_user is not a string", status=500
+        )
 
 
 def save_recipes(data: HttpRequest) -> HttpResponse:
@@ -145,12 +146,10 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     form_data_from_request = request[key_in_request]
     form_data_from_request = json.loads(form_data_from_request)
 
-    query_key_in_form_data_from_request = list(
-        form_data_from_request.keys())[0]
+    query_key_in_form_data_from_request = list(form_data_from_request.keys())[0]
     user_query_to_gpt = form_data_from_request[query_key_in_form_data_from_request]
 
-    num_requests_key_in_form_data_from_request = list(
-        form_data_from_request.keys())[1]
+    num_requests_key_in_form_data_from_request = list(form_data_from_request.keys())[1]
     num_requests_requested = form_data_from_request[
         num_requests_key_in_form_data_from_request
     ]
@@ -176,8 +175,7 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     # )
     shopping_list = {}
 
-    response = {"recipes_from_gpt": recipe_string,
-                "shopping list": shopping_list}
+    response = {"recipes_from_gpt": recipe_string, "shopping list": shopping_list}
 
     return HttpResponse(json.dumps(response))
 
