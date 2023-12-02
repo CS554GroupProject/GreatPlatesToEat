@@ -41,6 +41,26 @@ const RequestRecipesPage = (props) => {
       restrictions: restrictions !== '' ? restrictions : 'None',
       username: currentUser,
     };
+    console.log(responseDataForBackend);
+    postToChatGPT(JSON.stringify(responseDataForBackend))
+      .then((data) => {
+        setAvailableRecipes((prev) => {
+          return [
+            ...prev,
+            {
+              query: data.recipes_from_gpt,
+              numRequested: numRecipes,
+              restrictions: restrictions,
+              userName: currentUser,
+            },
+          ];
+        });
+        console.log(data);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        event.target.reset();
+      });
     setAvailableRecipes((prev) => {
       return [
         ...prev,
@@ -52,13 +72,6 @@ const RequestRecipesPage = (props) => {
         },
       ];
     });
-    console.log(responseDataForBackend);
-    postToChatGPT(JSON.stringify(responseDataForBackend))
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err))
-      .finally(() => {
-        event.target.reset();
-      });
   };
 
   return (

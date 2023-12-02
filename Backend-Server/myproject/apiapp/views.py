@@ -92,19 +92,22 @@ def get_recipe(data: HttpRequest) -> HttpResponse:
 
     return HttpResponse(json.dumps(recipes), content_type="application/json")
  """
+
+
 def get_recipe(request: HttpRequest) -> HttpResponse:
     try:
         data = json.loads(request.body.decode("UTF-8"))
 
         current_user = str(data.get("user"))
-                           
+
         if not isinstance(current_user, str):
             return HttpResponse("Need a username to get recipes", status=500)
 
         storer_manager = RecipeManager()
         requester_from_database = RecipeRequesterFromDatabase(storer_manager)
 
-        recipes = requester_from_database.request_recipes_for_current_user(current_user)
+        recipes = requester_from_database.request_recipes_for_current_user(
+            current_user)
 
         print(recipes)
 
@@ -142,10 +145,12 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     form_data_from_request = request[key_in_request]
     form_data_from_request = json.loads(form_data_from_request)
 
-    query_key_in_form_data_from_request = list(form_data_from_request.keys())[0]
+    query_key_in_form_data_from_request = list(
+        form_data_from_request.keys())[0]
     user_query_to_gpt = form_data_from_request[query_key_in_form_data_from_request]
 
-    num_requests_key_in_form_data_from_request = list(form_data_from_request.keys())[1]
+    num_requests_key_in_form_data_from_request = list(
+        form_data_from_request.keys())[1]
     num_requests_requested = form_data_from_request[
         num_requests_key_in_form_data_from_request
     ]
@@ -154,23 +159,25 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
         number_of_recipes=num_requests_requested, request=user_query_to_gpt
     )
 
-    list_of_possible_ingredients = files_opener.get_list_of_possible_ngredients(
-        "./apiapp/ingredients.csv"
-    )
+    # list_of_possible_ingredients = files_opener.get_list_of_possible_ngredients(
+    #     "./ingredients.csv"
+    # )
 
-    mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(
-        ingredients=list_of_possible_ingredients
-    )
+    # mapped_ingredients_file = ingredients_file_mapper.return_mapped_ingredient_entries(
+    #     ingredients=list_of_possible_ingredients
+    # )
 
     recipe_string = GetResponse.recipe_suggestion(
         self=GetResponse, prompt=prompt_to_gpt
     )
 
-    shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(
-        mapped_ingredients_file, recipe_string
-    )
+    # shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(
+    #     mapped_ingredients_file, recipe_string
+    # )
+    shopping_list = {}
 
-    response = {"recipes_from_gpt": recipe_string, "shopping list": shopping_list}
+    response = {"recipes_from_gpt": recipe_string,
+                "shopping list": shopping_list}
 
     return HttpResponse(json.dumps(response))
 
