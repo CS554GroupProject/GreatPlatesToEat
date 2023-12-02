@@ -42,19 +42,25 @@ class RecipeRequesterFromDatabase:
         self.manager = manager
 
     def request_recipes_for_current_user(self, current_user: str):
-        recipe_entries_to_return: dict = []
+        recipe_entries_to_return: list = [{}]
 
-        for recipe in recipe_entries_to_return:
-            if (recipe.keys() < 5):
-                SystemError("A recipe entry must contain 5 properties")
-            current_user_in_recipe_entry = recipe.keys()[4]
-            if (current_user_in_recipe_entry == current_user):
-                recipe_entries_to_return.push(recipe)
+        recipes = self.request_all_data()
 
+        for recipe in recipes:
+            if (len(recipe.keys()) < 4):
+                SystemError("A recipe entry must contain 4 properties")
+            user_in_recipe_entry = list(recipe.values())[0]
+            if (user_in_recipe_entry == current_user):
+                recipe_entries_to_return.append(recipe)
+
+        recipe_entries_to_return.remove({})
         return recipe_entries_to_return
 
     def request_all_data(self):
         recipes = self.manager.retrieve_recipe(recipes_database_address)
+
+        if (recipes is None):
+            SystemError("Something went wrong")
 
         return recipes
 
