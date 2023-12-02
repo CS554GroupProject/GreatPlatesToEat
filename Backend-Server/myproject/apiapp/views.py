@@ -95,19 +95,22 @@ def get_recipe(data: HttpRequest) -> HttpResponse:
 def get_recipe(request: HttpRequest) -> HttpResponse:
     try:
         data = json.loads(request.body.decode("UTF-8"))
-        current_user = str(data.get("current_user"))
+
+        current_user = str(data.get("user"))
+                           
+        if not isinstance(current_user, str):
+            return HttpResponse("Need a username to get recipes", status=500)
+
+        storer_manager = RecipeManager()
+        requester_from_database = RecipeRequesterFromDatabase(storer_manager)
+
+        recipes = requester_from_database.request_recipes_for_current_user(current_user)
+
+        print(recipes)
+
+        return HttpResponse(json.dumps(recipes), content_type="application/json")
     except (json.JSONDecodeError, ValueError):
         return HttpResponse("Invalid data format or current_user is not a string", status=500)
-
-    if not isinstance(current_user, str):
-        return HttpResponse("Need a username to get recipes", status=500)
-
-    storer_manager = RecipeManager()
-    requester_from_database = RecipeRequesterFromDatabase(storer_manager)
-
-    recipes = requester_from_database.request_recipes_for_current_user(current_user)
-
-    return HttpResponse(json.dumps(recipes), content_type="application/json")
 
 
 def save_recipes(data: HttpRequest) -> HttpResponse:

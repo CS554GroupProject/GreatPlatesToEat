@@ -66,11 +66,10 @@ class RecipeManager:
         try:
             with open(database_address, "r", encoding="utf-8") as myfile:
                 recipes = json.load(myfile)
-                if isinstance(recipes, dict):
+                if isinstance(recipes, list):
                     return recipes
                 else:
-                    recipe_dict = {recipes[i] for i in range(0, len(recipes))}
-                    return recipe_dict
+                    return None
                     # return (list(recipe_dict)[recipe_to_return])
 
         except (json.JSONDecodeError, FileNotFoundError):
