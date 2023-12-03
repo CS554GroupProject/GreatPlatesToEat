@@ -103,8 +103,10 @@ const RequestRecipesPage = (props: any) => {
                   desc={item.restrictions}
                   ingredientsList={item.ingredientsList}
                   key={Math.floor(Math.random() * 4000000)}
+                  uniqueId={Math.floor(Math.random() * 4000000)}
                   onSave={onSaveRecipeCard}
                   onDelete={() => {}}
+                  isDelete={false}
                 />
               );
             })
