@@ -1,12 +1,24 @@
 import React from 'react';
 
-const RecipeCard = (props) => {
+const RecipeCard = (props: {
+  ingredientsList: [];
+  Name: string;
+  desc: string;
+  indexOfCard: number;
+  onSave: Function;
+}) => {
   return (
-    <div className="card mx-auto w-25 mt-3 d-flex flex-flow-row bg-white rounded border border-primary shadow-lg">
+    <div className="card mx-auto w-25 mt-3 d-flex flex-flow-row bg-white rounded border border-primary shadow-lg mb-3">
       <div className="card-body">
         <h5 className="card-title text-center">{props.Name}</h5>
         <p className="card-text text-center">{props.desc}</p>
-        <p className="card-text text-center">{props.ingredientsList}</p>
+        {props.ingredientsList.map((item: any) => {
+          return (
+            <p className="card-text text-center" key={item}>
+              {item}
+            </p>
+          );
+        })}
       </div>
       {props.onSave !== null ? (
         <button

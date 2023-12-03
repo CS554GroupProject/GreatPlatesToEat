@@ -22,6 +22,7 @@ from .recipes import (
     RecipeRequesterFromDatabase,
 )
 from .save_recipes import RecipeManager
+import re
 
 
 class GetResponse:
@@ -131,6 +132,42 @@ def save_recipes(data: HttpRequest) -> HttpResponse:
     return HttpResponse(message)
 
 
+def extract_ingredients(recipe):
+    # Split the string into lines
+    lines = recipe.split('\n')
+
+    # Find the start of the ingredients list
+    ingredients_start = None
+    for i, line in enumerate(lines):
+        if 'Ingredients:' in line:
+            ingredients_start = i + 1
+            break
+
+    if ingredients_start is None:
+        return "No ingredients list found."
+
+    # Extract the ingredients
+    ingredients = []
+    for line in lines[ingredients_start:]:
+        # Stop if we reach the end of the ingredients list
+        if 'Instructions:' in line:
+            break
+
+        # Remove any leading or trailing whitespace
+        line = line.strip()
+
+        # Skip empty lines
+        if not line:
+            continue
+
+        # Extract the ingredient (assuming it's prefixed with a dash and a space)
+        match = re.match(r'- (.+)', line)
+        if match:
+            ingredients.append(match.group(1))
+
+    return ingredients
+
+
 def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     request = str(data.body, "UTF-8")
 
@@ -174,10 +211,11 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     # shopping_list = shopping_list_generator.return_list_of_ingredients_to_get(
     #     mapped_ingredients_file, recipe_string
     # )
-    shopping_list = {}
+    recipe_text = extract_ingredients(recipe_string)
+    shopping_list = recipe_text
 
-    response = {"recipes_from_gpt": recipe_string,
-                "shopping list": shopping_list}
+    response = {"response_text": recipe_string,
+                "ingredients": shopping_list}
 
     return HttpResponse(json.dumps(response))
 

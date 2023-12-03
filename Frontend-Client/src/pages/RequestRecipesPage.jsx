@@ -17,19 +17,19 @@ const RequestRecipesPage = (props) => {
   const onSaveRecipeCard = (event, name, desc, list, key) => {
     updateUserItems({
       userName: currentUser !== null ? currentUser : 'Default user',
-      desc: desc,
+      desc: name,
       list: list,
       key: key,
     });
     console.log(
       `Name: ${name} Desc: ${desc} IngList: ${list} Key: ${key} Created by: ${currentUser}`
     );
-    postToSaveRecipes({
-      userName: currentUser !== null ? currentUser : 'Default user',
-      desc: desc,
-      list: list,
-      key: key,
-    });
+    // postToSaveRecipes({
+    //   userName: currentUser !== null ? currentUser : 'Default user',
+    //   desc: desc,
+    //   list: list,
+    //   key: key,
+    // });
     // send some request to backend to save it
   };
 
@@ -48,8 +48,8 @@ const RequestRecipesPage = (props) => {
           return [
             ...prev,
             {
-              query: data.recipes_from_gpt,
-              numRequested: numRecipes,
+              query: query + ' : ' + restrictions,
+              ingredientsList: data.ingredients,
               restrictions: restrictions,
               userName: currentUser,
             },
@@ -66,16 +66,19 @@ const RequestRecipesPage = (props) => {
         ...prev,
         {
           query: query,
-          numRequested: numRecipes,
+          ingredientsList: ['', ''],
           restrictions: restrictions,
           userName: currentUser,
         },
       ];
     });
+    setQuery('');
+    setNumRecipes(1);
+    setRestrictions('');
   };
 
   return (
-    <>
+    <div className="mb-5">
       <RecipeRequestForm
         onSubmit={onSubmitHandler}
         recipesCount={setNumRecipes}
@@ -93,15 +96,15 @@ const RequestRecipesPage = (props) => {
                 <RecipeCard
                   Name={item.query}
                   desc={item.restrictions}
-                  ingredientsList={item.numRequested}
-                  key={index}
+                  ingredientsList={item.ingredientsList}
+                  key={Math.random()}
                   indexOfCard={index}
                   onSave={onSaveRecipeCard}
                 />
               );
             })
         : null}
-    </>
+    </div>
   );
 };
 

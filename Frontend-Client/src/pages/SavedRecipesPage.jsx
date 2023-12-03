@@ -13,20 +13,20 @@ const SavedRecipesPage = () => {
   const [recipeId, setRecipeId] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (recipeId) {
-      const getUserItems = async () => {
-        try {
-          const items = await fetchUserItems(currentUser, recipeId);
-          setUserItemsAPI(items);
-        } catch (error) {
-          console.error('Error fetching user items:', error);
-        }
-      };
+  // useEffect(() => {
+  //   if (recipeId) {
+  //     const getUserItems = async () => {
+  //       try {
+  //         const items = await fetchUserItems(currentUser, recipeId);
+  //         setUserItemsAPI(items);
+  //       } catch (error) {
+  //         console.error('Error fetching user items:', error);
+  //       }
+  //     };
 
-      getUserItems();
-    }
-  }, [currentUser, recipeId]);
+  //     getUserItems();
+  //   }
+  // }, [currentUser, recipeId]);
 
   const handleRecipeIdSubmit = (id) => {
     setRecipeId(id);
