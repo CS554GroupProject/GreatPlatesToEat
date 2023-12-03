@@ -4,7 +4,6 @@ const RecipeCard = (props: {
   ingredientsList: [];
   Name: string;
   desc: string;
-  indexOfCard: number;
   onSave: Function;
   onDelete: Function;
   key: number;
@@ -28,7 +27,6 @@ const RecipeCard = (props: {
           className="btn btn-success mx-auto mb-3"
           onClick={(event) =>
             props.onSave(
-              event,
               props.Name,
               props.desc,
               props.ingredientsList,
