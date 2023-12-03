@@ -107,14 +107,15 @@ def get_recipe(request: HttpRequest) -> HttpResponse:
         storer_manager = RecipeManager()
         requester_from_database = RecipeRequesterFromDatabase(storer_manager)
 
-        recipes = requester_from_database.request_recipes_for_current_user(
-            current_user)
+        recipes = requester_from_database.request_recipes_for_current_user(current_user)
 
         print(recipes)
 
         return HttpResponse(json.dumps(recipes), content_type="application/json")
     except (json.JSONDecodeError, ValueError):
-        return HttpResponse("Invalid data format or current_user is not a string", status=500)
+        return HttpResponse(
+            "Invalid data format or current_user is not a string", status=500
+        )
 
 
 def save_recipes(data: HttpRequest) -> HttpResponse:
@@ -134,12 +135,12 @@ def save_recipes(data: HttpRequest) -> HttpResponse:
 
 def extract_ingredients(recipe):
     # Split the string into lines
-    lines = recipe.split('\n')
+    lines = recipe.split("\n")
 
     # Find the start of the ingredients list
     ingredients_start = None
     for i, line in enumerate(lines):
-        if 'Ingredients:' in line:
+        if "Ingredients:" in line:
             ingredients_start = i + 1
             break
 
@@ -150,7 +151,7 @@ def extract_ingredients(recipe):
     ingredients = []
     for line in lines[ingredients_start:]:
         # Stop if we reach the end of the ingredients list
-        if 'Instructions:' in line:
+        if "Instructions:" in line:
             break
 
         # Remove any leading or trailing whitespace
@@ -161,7 +162,7 @@ def extract_ingredients(recipe):
             continue
 
         # Extract the ingredient (assuming it's prefixed with a dash and a space)
-        match = re.match(r'- (.+)', line)
+        match = re.match(r"- (.+)", line)
         if match:
             ingredients.append(match.group(1))
 
@@ -182,12 +183,10 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     form_data_from_request = request[key_in_request]
     form_data_from_request = json.loads(form_data_from_request)
 
-    query_key_in_form_data_from_request = list(
-        form_data_from_request.keys())[0]
+    query_key_in_form_data_from_request = list(form_data_from_request.keys())[0]
     user_query_to_gpt = form_data_from_request[query_key_in_form_data_from_request]
 
-    num_requests_key_in_form_data_from_request = list(
-        form_data_from_request.keys())[1]
+    num_requests_key_in_form_data_from_request = list(form_data_from_request.keys())[1]
     num_requests_requested = form_data_from_request[
         num_requests_key_in_form_data_from_request
     ]
@@ -214,8 +213,7 @@ def request_user_input_for_gpt(data: HttpRequest) -> HttpResponse:
     recipe_text = extract_ingredients(recipe_string)
     shopping_list = recipe_text
 
-    response = {"response_text": recipe_string,
-                "ingredients": shopping_list}
+    response = {"response_text": recipe_string, "ingredients": shopping_list}
 
     return HttpResponse(json.dumps(response))
 
