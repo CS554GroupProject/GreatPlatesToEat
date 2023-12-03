@@ -47,10 +47,10 @@ class RecipeRequesterFromDatabase:
         recipes = self.request_all_data()
 
         for recipe in recipes:
-            if (len(recipe.keys()) < 4):
+            if len(recipe.keys()) < 4:
                 SystemError("A recipe entry must contain 4 properties")
             user_in_recipe_entry = list(recipe.values())[0]
-            if (user_in_recipe_entry == current_user):
+            if user_in_recipe_entry == current_user:
                 recipe_entries_to_return.append(recipe)
 
         recipe_entries_to_return.remove({})
@@ -59,7 +59,7 @@ class RecipeRequesterFromDatabase:
     def request_all_data(self):
         recipes = self.manager.retrieve_recipe(recipes_database_address)
 
-        if (recipes is None):
+        if recipes is None:
             SystemError("Something went wrong")
 
         return recipes
