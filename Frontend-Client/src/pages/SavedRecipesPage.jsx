@@ -55,6 +55,8 @@ const SavedRecipesPage = () => {
                   indexOfCard={index}
                   onSave={null}
                   onDelete={deleteUserItem}
+                  isDelete={true}
+                  uniqueId={item.key}
                 />
               ) : null
             )}
@@ -72,6 +74,8 @@ const SavedRecipesPage = () => {
         indexOfCard={index}
         onSave={null}
         onDelete={deleteUserItem}
+        isDelete={true}
+        uniqueId={item.key}
       />
     ));
   };
