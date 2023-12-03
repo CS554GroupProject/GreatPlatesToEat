@@ -9,7 +9,7 @@ import RecipeSearchInput from '../components/RecipeSearchInput';
 const SavedRecipesPage = () => {
   const { currentUser } = useAuth();
   const [userItemsAPI, setUserItemsAPI] = useState([]);
-  const { userItems, updateUserItems } = useUserItems();
+  const { userItems, updateUserItems, deleteUserItem } = useUserItems();
   const [recipeId, setRecipeId] = useState(null);
   const navigate = useNavigate();
 
@@ -51,9 +51,10 @@ const SavedRecipesPage = () => {
                   Name={item.userName}
                   desc={item.desc}
                   ingredientsList={item.list}
-                  key={index}
-                  indexOfCard={item.key}
+                  key={item.key}
+                  indexOfCard={index}
                   onSave={null}
+                  onDelete={deleteUserItem}
                 />
               ) : null
             )}
@@ -67,9 +68,10 @@ const SavedRecipesPage = () => {
         Name={item.userName}
         desc={item.desc}
         ingredientsList={item.list}
-        key={index}
-        indexOfCard={item.key}
+        key={item.key}
+        indexOfCard={index}
         onSave={null}
+        onDelete={deleteUserItem}
       />
     ));
   };

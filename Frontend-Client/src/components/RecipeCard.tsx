@@ -6,6 +6,8 @@ const RecipeCard = (props: {
   desc: string;
   indexOfCard: number;
   onSave: Function;
+  onDelete: Function;
+  key: number;
 }) => {
   return (
     <div className="card mx-auto w-25 mt-3 d-flex flex-flow-row bg-white rounded border border-primary shadow-lg mb-3">
@@ -30,11 +32,20 @@ const RecipeCard = (props: {
               props.Name,
               props.desc,
               props.ingredientsList,
-              props.indexOfCard
+              props.key
             )
           }
         >
           Save
+        </button>
+      ) : null}
+      {props.onDelete !== null ? (
+        <button
+          type="submit"
+          className="btn btn-danger mx-auto mb-3"
+          onClick={(event) => props.onDelete(props.key)}
+        >
+          Delete
         </button>
       ) : null}
     </div>

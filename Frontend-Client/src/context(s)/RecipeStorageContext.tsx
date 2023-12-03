@@ -47,6 +47,7 @@ export const UserItemsProvider = ({ children }: Props) => {
 
   // Function to delete an item by its key
   const deleteUserItem = (key: number) => {
+    console.log('delete called');
     setUserItems((prevItems: [UserItemsType]) =>
       prevItems.filter((item: UserItemsType) => item.key !== key)
     );
