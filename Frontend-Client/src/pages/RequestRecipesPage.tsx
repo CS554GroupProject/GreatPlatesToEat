@@ -6,35 +6,50 @@ import { useAuth } from '../context(s)/AuthContext';
 import { useUserItems } from '../context(s)/RecipeStorageContext';
 import { postToSaveRecipes } from '../apis/postToSaveRecipes';
 
-const RequestRecipesPage = (props) => {
+interface Recipe {
+  query: string;
+  ingredientsList: [];
+  restrictions: string;
+  userName: string;
+}
+
+const RequestRecipesPage = (props: any) => {
   const { currentUser, login, logout } = useAuth();
   const { userItems, updateUserItems } = useUserItems();
-  const [availableRecipes, setAvailableRecipes] = useState([]);
+  const [availableRecipes, setAvailableRecipes] = useState<Recipe[]>([]);
   const [numRecipes, setNumRecipes] = useState(1);
   const [query, setQuery] = useState('');
   const [restrictions, setRestrictions] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onSaveRecipeCard = (event, name, desc, list, key) => {
+  const onSaveRecipeCard = (
+    name: string,
+    desc: string,
+    list: [string],
+    key: number
+  ) => {
     updateUserItems({
       userName: currentUser !== null ? currentUser : 'Default user',
-      desc: desc,
+      desc: name,
       list: list,
       key: key,
     });
     console.log(
       `Name: ${name} Desc: ${desc} IngList: ${list} Key: ${key} Created by: ${currentUser}`
     );
-    postToSaveRecipes({
-      userName: currentUser !== null ? currentUser : 'Default user',
-      desc: desc,
-      list: list,
-      key: key,
-    });
+    setAvailableRecipes([]);
+    // postToSaveRecipes({
+    //   userName: currentUser !== null ? currentUser : 'Default user',
+    //   desc: desc,
+    //   list: list,
+    //   key: key,
+    // });
     // send some request to backend to save it
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = (event: any) => {
     event.preventDefault();
+    setIsLoading(true);
     const responseDataForBackend = {
       query: query,
       numRequested: numRecipes,
@@ -48,8 +63,8 @@ const RequestRecipesPage = (props) => {
           return [
             ...prev,
             {
-              query: data.recipes_from_gpt,
-              numRequested: numRecipes,
+              query: query + ' : ' + restrictions,
+              ingredientsList: data.ingredients,
               restrictions: restrictions,
               userName: currentUser,
             },
@@ -60,22 +75,15 @@ const RequestRecipesPage = (props) => {
       .catch((err) => console.log(err))
       .finally(() => {
         event.target.reset();
+        setIsLoading(false);
       });
-    setAvailableRecipes((prev) => {
-      return [
-        ...prev,
-        {
-          query: query,
-          numRequested: numRecipes,
-          restrictions: restrictions,
-          userName: currentUser,
-        },
-      ];
-    });
+    setQuery('');
+    setNumRecipes(1);
+    setRestrictions('');
   };
 
   return (
-    <>
+    <div className="mb-5">
       <RecipeRequestForm
         onSubmit={onSubmitHandler}
         recipesCount={setNumRecipes}
@@ -85,7 +93,7 @@ const RequestRecipesPage = (props) => {
       />
       {availableRecipes !== null
         ? availableRecipes
-            .filter((item) => {
+            .filter((item: { userName: string }) => {
               return item.userName === currentUser;
             })
             .map((item, index) => {
@@ -93,15 +101,16 @@ const RequestRecipesPage = (props) => {
                 <RecipeCard
                   Name={item.query}
                   desc={item.restrictions}
-                  ingredientsList={item.numRequested}
-                  key={index}
-                  indexOfCard={index}
+                  ingredientsList={item.ingredientsList}
+                  key={Math.floor(Math.random() * 4000000)}
                   onSave={onSaveRecipeCard}
+                  onDelete={() => {}}
                 />
               );
             })
         : null}
-    </>
+      {isLoading ? <div className="text-center">Loading...</div> : null}
+    </div>
   );
 };
 

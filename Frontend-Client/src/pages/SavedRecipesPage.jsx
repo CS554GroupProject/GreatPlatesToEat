@@ -9,24 +9,24 @@ import RecipeSearchInput from '../components/RecipeSearchInput';
 const SavedRecipesPage = () => {
   const { currentUser } = useAuth();
   const [userItemsAPI, setUserItemsAPI] = useState([]);
-  const { userItems, updateUserItems } = useUserItems();
+  const { userItems, updateUserItems, deleteUserItem } = useUserItems();
   const [recipeId, setRecipeId] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (recipeId) {
-      const getUserItems = async () => {
-        try {
-          const items = await fetchUserItems(currentUser, recipeId);
-          setUserItemsAPI(items);
-        } catch (error) {
-          console.error('Error fetching user items:', error);
-        }
-      };
+  // useEffect(() => {
+  //   if (recipeId) {
+  //     const getUserItems = async () => {
+  //       try {
+  //         const items = await fetchUserItems(currentUser, recipeId);
+  //         setUserItemsAPI(items);
+  //       } catch (error) {
+  //         console.error('Error fetching user items:', error);
+  //       }
+  //     };
 
-      getUserItems();
-    }
-  }, [currentUser, recipeId]);
+  //     getUserItems();
+  //   }
+  // }, [currentUser, recipeId]);
 
   const handleRecipeIdSubmit = (id) => {
     setRecipeId(id);
@@ -51,9 +51,10 @@ const SavedRecipesPage = () => {
                   Name={item.userName}
                   desc={item.desc}
                   ingredientsList={item.list}
-                  key={index}
-                  indexOfCard={item.key}
+                  key={item.key}
+                  indexOfCard={index}
                   onSave={null}
+                  onDelete={deleteUserItem}
                 />
               ) : null
             )}
@@ -67,9 +68,10 @@ const SavedRecipesPage = () => {
         Name={item.userName}
         desc={item.desc}
         ingredientsList={item.list}
-        key={index}
-        indexOfCard={item.key}
+        key={item.key}
+        indexOfCard={index}
         onSave={null}
+        onDelete={deleteUserItem}
       />
     ));
   };
